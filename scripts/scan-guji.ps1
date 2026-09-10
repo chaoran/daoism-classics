@@ -5,7 +5,10 @@
 # 前端直接加载 Markdown 并渲染，换行等格式以源文件为准。
 #
 # 用法：在 PowerShell 中执行 .\scripts\scan-guji.ps1 [-GujiRoot <古籍目录>]
-# 排序：编辑 <古籍目录>\排序.txt 中各行的顺序后重跑本脚本即可。
+# 排序：编辑本仓库根目录的 排序.txt 后重跑本脚本即可。格式：
+#   [分类]        -> 分类顺序
+#   [分类名]      -> 该分类下的书籍顺序
+#   [书名]        -> 该书的篇章顺序（自动为多篇章书籍生成，可手动调整）
 
 param(
     [string]$GujiRoot = ""
@@ -33,7 +36,7 @@ if (-not $GujiRoot -or -not (Test-Path $GujiRoot)) {
 $OutputDir = Join-Path $PSScriptRoot "..\data"
 $CatalogFile = Join-Path $OutputDir "catalog.json"
 $BooksOutDir = Join-Path $OutputDir "books"
-$OrderFile = Join-Path $GujiRoot "排序.txt"
+$OrderFile = Join-Path $PSScriptRoot "..\排序.txt"
 
 Write-Host "GujiRoot: $GujiRoot"
 Write-Host "OutputDir: $OutputDir"
@@ -92,8 +95,10 @@ function Read-TextFile ($path) {
 }
 
 # ======= 读取手动排序文件 =======
-$userCatOrder = @()
-$userBookOrders = @{}
+# 所有区域先读进通用字典，扫描时再按名称分发：
+#   '分类' -> 分类顺序；分类名 -> 书籍顺序；书名 -> 篇章顺序
+$sections = @{}
+$sectionOrder = @()
 
 if (Test-Path $OrderFile) {
     $section = $null
@@ -102,20 +107,21 @@ if (Test-Path $OrderFile) {
         if ($line -eq '' -or $line.StartsWith('#')) { continue }
         if ($line -match '^\[(.+)\]$') {
             $section = $matches[1].Trim()
+            if (-not $sections.ContainsKey($section)) {
+                $sections[$section] = @()
+                $sectionOrder += $section
+            }
             continue
         }
-        if ($section -eq '分类') {
-            $userCatOrder += $line
-        } elseif ($section) {
-            if (-not $userBookOrders.ContainsKey($section)) { $userBookOrders[$section] = @() }
-            $userBookOrders[$section] += $line
-        }
+        if ($section) { $sections[$section] += $line }
     }
-    Write-Host "已读取排序文件: 分类 $($userCatOrder.Count) 个, 书籍分组 $($userBookOrders.Keys.Count) 个"
+    Write-Host "已读取排序文件: $($sectionOrder.Count) 个区域"
 } else {
-    $userCatOrder = @('道源', '玄契', '炼性', '金丹')
+    $sections['分类'] = @('道源', '玄契', '炼性', '金丹')
     Write-Host "未找到排序文件，使用默认分类顺序，稍后将生成: $OrderFile"
 }
+
+$userCatOrder = if ($sections.ContainsKey('分类')) { $sections['分类'] } else { @() }
 
 # ======= 主流程 =======
 if (-not (Test-Path $BooksOutDir)) {
@@ -167,9 +173,18 @@ foreach ($catDir in $categoryDirs) {
             }
         }
 
+        # 篇章排序：优先排序文件中的 [书名] 区域，未列入的按默认规则排在后面
+        $bookTitle = Get-Slug $bookName
+        $chapOrder = $sections[$bookTitle]
+        $chapters = $chapters | Sort-Object {
+            $i = -1
+            if ($chapOrder) { $i = [array]::IndexOf($chapOrder, $_.title) }
+            if ($i -ge 0) { $i } else { 10000 }
+        }, { Get-SortKey $_.file }
+
         $books += [ordered]@{
             id = $bookId
-            title = Get-Slug $bookName
+            title = $bookTitle
             category = $categoryName
             categoryId = $categoryId
             chapterCount = $chapters.Count
@@ -179,7 +194,7 @@ foreach ($catDir in $categoryDirs) {
 
     if ($books.Count -gt 0) {
         # 按手动顺序排序；未列入的按默认规则排在后面
-        $orderList = $userBookOrders[$categoryName]
+        $orderList = $sections[$categoryName]
         $books = $books | Sort-Object {
             $i = -1
             if ($orderList) { $i = [array]::IndexOf($orderList, $_.title) }
@@ -203,9 +218,11 @@ $categories = $categories | Sort-Object {
 # ======= 回写排序文件（保留用户顺序，追加新增条目） =======
 $orderLines = @()
 $orderLines += '# 玄门正典 · 排序文件'
-$orderLines += '# 修改方法：调整下面各行的先后顺序，保存后重新运行 scripts\scan-guji.ps1 即可生效'
-$orderLines += '# [分类] 区域决定分类顺序；每个 [分类名] 区域决定该分类下的书籍顺序'
-$orderLines += '# 新增的分类或书籍会自动追加到对应区域末尾，可再手动调整位置'
+$orderLines += '# 修改方法：调整下面各行的先后顺序，保存后重新运行 scripts\scan-guji.ps1 并提交推送即可生效'
+$orderLines += '# [分类] 区域：分类顺序'
+$orderLines += '# [分类名] 区域：该分类下的书籍顺序'
+$orderLines += '# [书名] 区域：该书的篇章顺序（仅多篇章书籍有此区域）'
+$orderLines += '# 新增的分类/书籍/篇章会自动追加到对应区域末尾，可再手动调整位置'
 $orderLines += ''
 $orderLines += '[分类]'
 foreach ($c in $categories) { $orderLines += $c.name }
@@ -213,6 +230,16 @@ foreach ($c in $categories) {
     $orderLines += ''
     $orderLines += "[$($c.name)]"
     foreach ($b in $c.books) { $orderLines += $b.title }
+}
+$orderLines += ''
+$orderLines += '# ======= 篇章顺序 ======='
+foreach ($c in $categories) {
+    foreach ($b in $c.books) {
+        if ($b.chapters.Count -le 1) { continue }
+        $orderLines += ''
+        $orderLines += "[$($b.title)]"
+        foreach ($ch in $b.chapters) { $orderLines += $ch.title }
+    }
 }
 ($orderLines -join "`r`n") | Out-File -FilePath $OrderFile -Encoding UTF8
 Write-Host "已更新排序文件: $OrderFile"

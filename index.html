@@ -557,6 +557,8 @@
     let currentChapterId = null;
     let currentChapterData = null; // 当前章节解析结果 { blocks: [...] }
     const chapterCache = {};       // 章节缓存，key = bookId/chapterId
+    let readerScrollHandler = null; // 阅读器滚动监听（离开阅读器即失效）
+    let suppressProgress = false;   // 恢复阅读位置期间禁止写进度
     let readingMode = localStorage.getItem('xuanmen_mode') || 'mixed';
     let fontSize = parseInt(localStorage.getItem('xuanmen_fontsize') || '19', 10);
 
@@ -937,18 +939,38 @@
       setupTapToggle();
 
       if (targetBlockId) {
+        suppressProgress = true;
         setTimeout(() => {
           const el = document.getElementById(`block-${targetBlockId}`);
           if (el) {
             el.scrollIntoView({ behavior: 'smooth', block: 'start' });
             setTimeout(() => el.classList.remove('highlight'), 3000);
           }
+          setTimeout(() => { suppressProgress = false; }, 800);
         }, 100);
       } else if (typeof targetScrollY === 'number' && targetScrollY > 0) {
-        setTimeout(() => {
-          const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-          window.scrollTo({ top: Math.min(targetScrollY, maxScroll), behavior: 'auto' });
-        }, 150);
+        // 瞬时跳转（绕过 CSS smooth），恢复期间不写进度，防止把"页面顶部"误存为进度
+        suppressProgress = true;
+        const root = document.documentElement;
+        const prevBehavior = root.style.scrollBehavior;
+        root.style.scrollBehavior = 'auto';
+        const applyRestore = () => {
+          const maxScroll = Math.max(0, root.scrollHeight - window.innerHeight);
+          window.scrollTo(0, Math.min(targetScrollY, maxScroll));
+        };
+        requestAnimationFrame(() => {
+          applyRestore();
+          requestAnimationFrame(() => {
+            applyRestore();
+            root.style.scrollBehavior = prevBehavior;
+            const doc = root.scrollHeight - window.innerHeight;
+            const pct = doc > 0 ? Math.min(100, (window.scrollY / doc) * 100) : 0;
+            document.getElementById('progress-bar').style.width = pct + '%';
+            const pctEl = document.getElementById('header-pct');
+            if (pctEl) pctEl.textContent = Math.round(pct) + '%';
+            setTimeout(() => { suppressProgress = false; }, 300);
+          });
+        });
       } else {
         window.scrollTo(0, 0);
       }
@@ -974,7 +996,12 @@
       const content = document.getElementById('reader-content');
       const blocks = content.querySelectorAll('.block');
 
+      if (readerScrollHandler) window.removeEventListener('scroll', readerScrollHandler);
+
       const onScroll = () => {
+        // 离开本章节后（返回书架/切换章节）旧监听立即失效，防止误写进度
+        if (currentView !== 'reader' || currentBookId !== book.id || currentChapterId !== chapter.id) return;
+
         const docHeight = document.documentElement.scrollHeight - window.innerHeight;
         const scrollPercent = docHeight > 0
           ? Math.min(100, Math.max(0, (window.scrollY / docHeight) * 100))
@@ -983,6 +1010,8 @@
         document.getElementById('progress-bar').style.width = scrollPercent + '%';
         const pctEl = document.getElementById('header-pct');
         if (pctEl) pctEl.textContent = Math.round(scrollPercent) + '%';
+
+        if (suppressProgress) return;
 
         const rect = content.getBoundingClientRect();
         let currentBlock = chapter.blocks[0];
@@ -1002,6 +1031,7 @@
         }
       };
 
+      readerScrollHandler = onScroll;
       window.addEventListener('scroll', onScroll, { passive: true });
       setTimeout(onScroll, 200);
     }
