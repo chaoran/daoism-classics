@@ -565,7 +565,7 @@
     document.addEventListener('DOMContentLoaded', async () => {
       document.documentElement.style.setProperty('--reader-font-size', fontSize + 'px');
       try {
-        const res = await fetch('data/catalog.json');
+        const res = await fetch('data/catalog.json', { cache: 'no-cache' });
         if (!res.ok) throw new Error('无法加载古籍目录');
         appData = await res.json();
         restoreLastPosition();
@@ -581,7 +581,7 @@
 
     async function loadFullBook(id) {
       if (bookCache[id]) return bookCache[id];
-      const res = await fetch('data/books/' + encodeURIComponent(id) + '.json');
+      const res = await fetch('data/books/' + encodeURIComponent(id) + '.json', { cache: 'no-cache' });
       if (!res.ok) throw new Error('书籍内容加载失败');
       const data = await res.json();
       bookCache[id] = data;
