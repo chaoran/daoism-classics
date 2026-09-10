@@ -634,6 +634,9 @@
         } else if (line && !/^#{1,6}\s/.test(line) && !/^-{3,}$/.test(line)) {
           inQuote = false;
           curTrans.push(line);
+        } else if (!line) {
+          // 空行结束当前引用块：下一个 > 将开启新的配对单元
+          inQuote = false;
         }
       }
       flush();
