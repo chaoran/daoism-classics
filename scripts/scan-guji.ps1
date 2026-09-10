@@ -1,74 +1,101 @@
-﻿# 扫描本地古籍目录，生成结构化 books.json
-# 用法：在 PowerShell 中执行 .\scripts\scan-guji.ps1
+﻿# 扫描本地古籍目录，生成站点数据（目录 catalog.json + 每本书单独的 books/<id>.json）
+# 用法：在 PowerShell 中执行 .\scripts\scan-guji.ps1 [-GujiRoot <古籍目录>]
+#
+# 排序：编辑 <古籍目录>\排序.txt 中各行的顺序后重跑本脚本即可。
+#       新增的分类/书籍会自动追加到该文件对应区域末尾。
+
+param(
+    [string]$GujiRoot = ""
+)
 
 $ErrorActionPreference = "Continue"
 
 Write-Host "脚本启动..."
-Write-Host "PSScriptRoot: $PSScriptRoot"
 
-$GujiRoot = Join-Path $PSScriptRoot "..\..\古籍"
-$OutputFile = Join-Path $PSScriptRoot "..\data\books.json"
+# --- 定位古籍目录 ---
+if (-not $GujiRoot) {
+    $candidates = @(
+        (Join-Path $PSScriptRoot "..\..\古籍"),
+        (Join-Path $PSScriptRoot "..\..\..\古文整理本地\古籍")
+    )
+    foreach ($c in $candidates) {
+        if (Test-Path $c) { $GujiRoot = (Resolve-Path $c).Path; break }
+    }
+}
+if (-not $GujiRoot -or -not (Test-Path $GujiRoot)) {
+    Write-Error "找不到古籍目录，请用 -GujiRoot 指定"
+    exit 1
+}
+
+$OutputDir = Join-Path $PSScriptRoot "..\data"
+$CatalogFile = Join-Path $OutputDir "catalog.json"
+$BooksOutDir = Join-Path $OutputDir "books"
+$OrderFile = Join-Path $GujiRoot "排序.txt"
 
 Write-Host "GujiRoot: $GujiRoot"
-Write-Host "OutputFile: $OutputFile"
+Write-Host "OutputDir: $OutputDir"
+Write-Host "OrderFile: $OrderFile"
 
 function Get-Slug ($name) {
     # 去掉前导数字编号，如 "01_太上老君说常清静经" -> "太上老君说常清静经"
     $name -replace '^\d+[-_]', ''
 }
 
-function Get-SortKey ($name) {
-    # 支持前导数字编号和中文数字前缀排序
-    $cnNums = @{
-        '零' = 0; '一' = 1; '二' = 2; '三' = 3; '四' = 4;
-        '五' = 5; '六' = 6; '七' = 7; '八' = 8; '九' = 9; '十' = 10
+function Convert-ChineseNumber ($text) {
+    # 正确解析中文数字：一=1 ... 十=10, 十一=11, 二十=20, 二十一=21, 一百二十三=123
+    $digits = @{ '零' = 0; '一' = 1; '二' = 2; '两' = 2; '三' = 3; '四' = 4; '五' = 5; '六' = 6; '七' = 7; '八' = 8; '九' = 9 }
+    $units = @{ '十' = 10; '百' = 100; '千' = 1000 }
+    $total = 0; $number = 0
+    foreach ($c in $text.ToCharArray()) {
+        $s = $c.ToString()
+        if ($digits.ContainsKey($s)) { $number = $digits[$s] }
+        elseif ($units.ContainsKey($s)) {
+            if ($number -eq 0) { $number = 1 }
+            $total += $number * $units[$s]
+            $number = 0
+        } else { return -1 }
     }
+    return $total + $number
+}
+
+function Get-SortKey ($name) {
     $base = [System.IO.Path]::GetFileNameWithoutExtension($name)
 
-    # 优先按前导阿拉伯数字排序
-    if ($base -match '^(\d+)') {
-        return [int]$matches[1]
+    # 1. 前导阿拉伯数字，如 "01_xxx"
+    if ($base -match '^(\d+)') { return [int]$matches[1] }
+
+    # 2. "第N" 编号（可出现在任意位置），如 "道原第一" "第十二章"
+    if ($base -match '第([零一二两三四五六七八九十百千]+|\d+)') {
+        $n = $matches[1]
+        if ($n -match '^\d+$') { return [int]$n }
+        $v = Convert-ChineseNumber $n
+        if ($v -ge 0) { return $v }
     }
 
-    # 否则解析开头连续的中文数字
-    $total = 0
-    $found = $false
-    foreach ($c in $base.ToCharArray()) {
-        $s = $c.ToString()
-        if ($cnNums.ContainsKey($s)) {
-            $v = $cnNums[$s]
-            if ($total -eq 0 -and $v -eq 10) {
-                $total = 10
-            } else {
-                $total = $total * 10 + $v
-            }
-            $found = $true
-        } elseif ($found) {
-            break
-        }
+    # 3. 前导中文数字（可带 卷/篇 前缀），如 "一宇" "卷三"
+    if ($base -match '^[卷篇]?([零一二两三四五六七八九十百千]+)') {
+        $v = Convert-ChineseNumber $matches[1]
+        if ($v -ge 0) { return $v }
     }
-    if ($found) { return $total }
 
-    # 无数字时按原名 Unicode 排序
     return [int]::MaxValue
 }
 
-function Get-FileEncoding ($path) {
-    # 尝试 UTF-8，回退到系统默认编码
-    [System.Text.Encoding]::UTF8
+function Read-TextFile ($path) {
+    $reader = New-Object System.IO.StreamReader($path, $true)
+    $text = $reader.ReadToEnd()
+    $reader.Close()
+    return $text
 }
 
 function Split-MarkdownBlocks ($content) {
-    # 按空行分段，过滤空段落和 Markdown 分隔线
     $paragraphs = $content -split "\r?\n\s*\r?\n" | ForEach-Object { $_.Trim() } | Where-Object {
         $_ -ne '' -and $_ -notmatch '^-{3,}$' -and $_ -notmatch '^(\*\s*){3,}$'
     }
     $blocks = @()
     $seq = 1
     foreach ($p in $paragraphs) {
-        # 识别 1-6 级 Markdown 标题
         $type = if ($p -match '^#{1,6}\s') { 'title' } else { 'body' }
-        # 去掉标题的 # 标记用于纯文本显示
         $clean = $p -replace '^#{1,6}\s*', ''
         $blocks += [ordered]@{
             id = "block-{0:D3}" -f $seq
@@ -83,9 +110,7 @@ function Split-MarkdownBlocks ($content) {
 }
 
 function Align-TranslationBlocks ($sourceBlocks, $translationContent) {
-    # 译文文件通常以 > 引用原文，后面跟多段译文。
-    # 注意：原文引用可能是多行连续的（如通玄真经），需要合并为同一段原文引用。
-    # 我们以「连续 > 块」作为分隔锚点，把紧随其后的段落合并为同一个原文 block 的译文。
+    # 译文文件以 > 引用原文（可能连续多行），其后段落为译文
     $lines = $translationContent -split "\r?\n"
     $transUnits = @()
     $currentOriginal = @()
@@ -97,7 +122,6 @@ function Align-TranslationBlocks ($sourceBlocks, $translationContent) {
         if ($trimmed -match '^>\s*(.*)$') {
             $quoteLine = $matches[1]
             if (-not $inQuote -and ($currentOriginal.Count -gt 0 -or $currentTrans.Count -gt 0)) {
-                # 之前在收集译文，现在遇到新的原文引用，先把上一个单元保存
                 $transUnits += [ordered]@{
                     original = ($currentOriginal -join "`n").Trim()
                     translation = ($currentTrans -join "`n`n").Trim()
@@ -108,12 +132,10 @@ function Align-TranslationBlocks ($sourceBlocks, $translationContent) {
             $currentOriginal += $quoteLine
             $inQuote = $true
         } elseif ($trimmed -ne '' -and $trimmed -notmatch '^#{1,6}\s' -and $trimmed -notmatch '^-{3,}$') {
-            # 非空、非标题、非分隔线的行视为译文
             $inQuote = $false
             $currentTrans += $trimmed
         }
     }
-    # 保存最后一个单元
     if ($currentOriginal.Count -gt 0 -or $currentTrans.Count -gt 0) {
         $transUnits += [ordered]@{
             original = ($currentOriginal -join "`n").Trim()
@@ -121,13 +143,11 @@ function Align-TranslationBlocks ($sourceBlocks, $translationContent) {
         }
     }
 
-    # 按顺序将 sourceBlocks 与 transUnits 配对
     $aligned = @()
     $transIndex = 0
     for ($i = 0; $i -lt $sourceBlocks.Count; $i++) {
         $block = [ordered]@{}
         $sourceBlocks[$i].Keys | ForEach-Object { $block[$_] = $sourceBlocks[$i][$_] }
-        # 标题段落不附加译文
         if ($sourceBlocks[$i].type -eq 'title') {
             $block.translation = $null
         } elseif ($transIndex -lt $transUnits.Count) {
@@ -137,14 +157,6 @@ function Align-TranslationBlocks ($sourceBlocks, $translationContent) {
         $aligned += $block
     }
     return $aligned
-}
-
-function Read-TextFile ($path) {
-    # 使用 UTF-8 读取，并跳过 BOM
-    $reader = New-Object System.IO.StreamReader($path, $true)
-    $text = $reader.ReadToEnd()
-    $reader.Close()
-    return $text
 }
 
 function Process-Book ($bookPath, $categoryId, $categoryName) {
@@ -176,7 +188,6 @@ function Process-Book ($bookPath, $categoryId, $categoryName) {
                     } else {
                         $null
                     }
-                    # 如果 content 是 Markdown 标题但 type 未标记，则修正 type
                     if ($type -eq 'body' -and $b.content -match '^#{1,6}\s') {
                         $type = 'title'
                         $translation = $null
@@ -208,7 +219,6 @@ function Process-Book ($bookPath, $categoryId, $categoryName) {
             $sourceContent = Read-TextFile $sf.FullName
             $sourceBlocks = Split-MarkdownBlocks $sourceContent
 
-            # 尝试找对应译文
             $transPath = Join-Path $transDir $sf.Name
             if (Test-Path $transPath) {
                 $transContent = Read-TextFile $transPath
@@ -234,7 +244,38 @@ function Process-Book ($bookPath, $categoryId, $categoryName) {
     }
 }
 
-# 主流程
+# ======= 读取手动排序文件 =======
+# 格式：
+#   # 注释
+#   [分类]        -> 分类顺序
+#   [分类名]      -> 该分类下书籍顺序（书名一行一个，使用显示名）
+$userCatOrder = @()
+$userBookOrders = @{}
+
+if (Test-Path $OrderFile) {
+    $section = $null
+    foreach ($raw in (Read-TextFile $OrderFile) -split "\r?\n") {
+        $line = $raw.Trim()
+        if ($line -eq '' -or $line.StartsWith('#')) { continue }
+        if ($line -match '^\[(.+)\]$') {
+            $section = $matches[1].Trim()
+            continue
+        }
+        if ($section -eq '分类') {
+            $userCatOrder += $line
+        } elseif ($section) {
+            if (-not $userBookOrders.ContainsKey($section)) { $userBookOrders[$section] = @() }
+            $userBookOrders[$section] += $line
+        }
+    }
+    Write-Host "已读取排序文件: 分类 $($userCatOrder.Count) 个, 书籍分组 $($userBookOrders.Keys.Count) 个"
+} else {
+    # 首次运行：使用默认分类顺序
+    $userCatOrder = @('道源', '玄契', '炼性', '金丹')
+    Write-Host "未找到排序文件，使用默认分类顺序，稍后将生成: $OrderFile"
+}
+
+# ======= 主流程 =======
 $categories = @()
 $categoryDirs = Get-ChildItem $GujiRoot -Directory | Sort-Object { Get-SortKey $_.Name }
 
@@ -246,12 +287,18 @@ foreach ($catDir in $categoryDirs) {
     $bookDirs = Get-ChildItem $catDir.FullName -Directory | Sort-Object { Get-SortKey $_.Name }
     foreach ($bookDir in $bookDirs) {
         $book = Process-Book $bookDir.FullName $categoryId $categoryName
-        if ($book) {
-            $books += $book
-        }
+        if ($book) { $books += $book }
     }
 
     if ($books.Count -gt 0) {
+        # 按手动顺序排序；未列入的按默认规则排在后面
+        $orderList = $userBookOrders[$categoryName]
+        $books = $books | Sort-Object {
+            $i = -1
+            if ($orderList) { $i = [array]::IndexOf($orderList, $_.title) }
+            if ($i -ge 0) { $i } else { 10000 }
+        }, { Get-SortKey $_.title }
+
         $categories += [ordered]@{
             id = $categoryId
             name = $categoryName
@@ -260,28 +307,86 @@ foreach ($catDir in $categoryDirs) {
     }
 }
 
-$categoryOrder = @('道源', '玄契', '炼性', '金丹')
+# 分类排序
 $categories = $categories | Sort-Object {
-    $idx = $categoryOrder.IndexOf($_.name)
-    if ($idx -ge 0) { $idx } else { 999 }
+    $i = [array]::IndexOf($userCatOrder, $_.name)
+    if ($i -ge 0) { $i } else { 10000 }
+}, { Get-SortKey $_.name }
+
+# ======= 回写排序文件（保留用户顺序，追加新增条目） =======
+$orderLines = @()
+$orderLines += '# 玄门正典 · 排序文件'
+$orderLines += '# 修改方法：调整下面各行的先后顺序，保存后重新运行 scripts\scan-guji.ps1 即可生效'
+$orderLines += '# [分类] 区域决定分类顺序；每个 [分类名] 区域决定该分类下的书籍顺序'
+$orderLines += '# 新增的分类或书籍会自动追加到对应区域末尾，可再手动调整位置'
+$orderLines += ''
+$orderLines += '[分类]'
+foreach ($c in $categories) { $orderLines += $c.name }
+foreach ($c in $categories) {
+    $orderLines += ''
+    $orderLines += "[$($c.name)]"
+    foreach ($b in $c.books) { $orderLines += $b.title }
+}
+($orderLines -join "`r`n") | Out-File -FilePath $OrderFile -Encoding UTF8
+Write-Host "已更新排序文件: $OrderFile"
+
+# ======= 输出数据 =======
+if (-not (Test-Path $BooksOutDir)) {
+    New-Item -ItemType Directory -Path $BooksOutDir -Force | Out-Null
 }
 
-$output = [ordered]@{
+$catalogCategories = @()
+$generatedIds = @{}
+
+foreach ($cat in $categories) {
+    $catalogBooks = @()
+    foreach ($book in $cat.books) {
+        $generatedIds[$book.id] = $true
+
+        # 单书完整数据
+        $bookFile = Join-Path $BooksOutDir ($book.id + '.json')
+        $book | ConvertTo-Json -Depth 20 | Out-File -FilePath $bookFile -Encoding UTF8
+
+        # 目录条目（不含正文）
+        $chapList = @()
+        foreach ($ch in $book.chapters) {
+            $chapList += [ordered]@{ id = $ch.id; title = $ch.title }
+        }
+        $catalogBooks += [ordered]@{
+            id = $book.id
+            title = $book.title
+            category = $book.category
+            categoryId = $book.categoryId
+            chapterCount = $book.chapters.Count
+            chapters = $chapList
+        }
+    }
+    $catalogCategories += [ordered]@{
+        id = $cat.id
+        name = $cat.name
+        books = $catalogBooks
+    }
+}
+
+# 清理已删除书籍的旧文件
+Get-ChildItem $BooksOutDir -Filter '*.json' -ErrorAction SilentlyContinue | Where-Object {
+    -not $generatedIds.ContainsKey($_.BaseName)
+} | ForEach-Object {
+    Write-Host "清理过期文件: $($_.Name)"
+    Remove-Item $_.FullName -Force
+}
+
+$catalog = [ordered]@{
     generatedAt = (Get-Date -Format "yyyy-MM-ddTHH:mm:ss")
-    totalCategories = $categories.Count
-    totalBooks = ($categories | ForEach-Object { $_.books.Count } | Measure-Object -Sum).Sum
-    categories = $categories
+    totalCategories = $catalogCategories.Count
+    totalBooks = ($catalogCategories | ForEach-Object { $_.books.Count } | Measure-Object -Sum).Sum
+    categories = $catalogCategories
 }
 
-# 确保输出目录存在
-$outDir = Split-Path $OutputFile -Parent
-if (-not (Test-Path $outDir)) {
-    New-Item -ItemType Directory -Path $outDir -Force | Out-Null
-}
+$catalog | ConvertTo-Json -Depth 10 | Out-File -FilePath $CatalogFile -Encoding UTF8
 
-$output | ConvertTo-Json -Depth 20 | Out-File -FilePath $OutputFile -Encoding UTF8
-Write-Host "已生成: $OutputFile"
-Write-Host "分类数: $($categories.Count)"
+Write-Host "已生成目录: $CatalogFile"
+Write-Host "已生成单书数据: $BooksOutDir ($($generatedIds.Count) 本)"
 foreach ($c in $categories) {
     Write-Host "  $($c.name): $($c.books.Count) 本"
 }

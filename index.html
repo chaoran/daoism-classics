@@ -551,10 +551,12 @@
   <div class="toast" id="toast"></div>
 
   <script>
-    let appData = null;
+    let appData = null;          // 目录数据（不含正文）
     let currentView = 'home';
     let currentBookId = null;
     let currentChapterId = null;
+    let currentFullBook = null;  // 当前已加载正文的书
+    const bookCache = {};        // 已加载书籍内容缓存
     let readingMode = localStorage.getItem('xuanmen_mode') || 'mixed';
     let fontSize = parseInt(localStorage.getItem('xuanmen_fontsize') || '19', 10);
 
@@ -563,8 +565,8 @@
     document.addEventListener('DOMContentLoaded', async () => {
       document.documentElement.style.setProperty('--reader-font-size', fontSize + 'px');
       try {
-        const res = await fetch('data/books.json');
-        if (!res.ok) throw new Error('无法加载古籍数据');
+        const res = await fetch('data/catalog.json');
+        if (!res.ok) throw new Error('无法加载古籍目录');
         appData = await res.json();
         restoreLastPosition();
       } catch (err) {
@@ -572,10 +574,23 @@
           <div class="empty">
             <h3>数据加载失败</h3>
             <p>${err.message}</p>
-            <p>请先运行 scripts/scan-guji.ps1 生成 data/books.json</p>
+            <p>请先运行 scripts/scan-guji.ps1 生成 data 目录数据</p>
           </div>`;
       }
     });
+
+    async function loadFullBook(id) {
+      if (bookCache[id]) return bookCache[id];
+      const res = await fetch('data/books/' + encodeURIComponent(id) + '.json');
+      if (!res.ok) throw new Error('书籍内容加载失败');
+      const data = await res.json();
+      bookCache[id] = data;
+      return data;
+    }
+
+    function showLoading(text) {
+      document.getElementById('main').innerHTML = `<div class="empty"><h3>${text || '加载中…'}</h3></div>`;
+    }
 
     function getBook(id) {
       for (const cat of appData.categories) {
@@ -744,7 +759,7 @@
     }
 
     // ======= 书目详情 =======
-    function openBook(bookId) {
+    async function openBook(bookId) {
       currentBookId = bookId;
       currentChapterId = null;
       currentView = 'book';
@@ -757,7 +772,16 @@
         currentChapterId = book.chapters[0].id;
         currentView = 'reader';
         updateUrl();
-        render(null, progress && progress.scrollY ? progress.scrollY : null);
+        showLoading();
+        try {
+          const full = await loadFullBook(bookId);
+          if (currentBookId !== bookId) return;
+          currentFullBook = full;
+          renderReader(null, progress && progress.scrollY ? progress.scrollY : null);
+        } catch (err) {
+          showToast(err.message);
+          goHome();
+        }
         return;
       }
 
@@ -804,17 +828,27 @@
     }
 
     // ======= 阅读器 =======
-    function openReader(bookId, chapterId, blockId, scrollY) {
+    async function openReader(bookId, chapterId, blockId, scrollY) {
       currentBookId = bookId;
       currentChapterId = chapterId;
       currentView = 'reader';
       setChrome(false);
       updateUrl();
-      render(blockId, scrollY);
+      showLoading();
+      try {
+        const full = await loadFullBook(bookId);
+        if (currentBookId !== bookId || currentView !== 'reader') return;
+        currentFullBook = full;
+        renderReader(blockId, scrollY);
+      } catch (err) {
+        showToast(err.message);
+        openBook(bookId);
+      }
     }
 
     function renderReader(targetBlockId, targetScrollY) {
-      const book = getBook(currentBookId);
+      const book = currentFullBook;
+      if (!book || book.id !== currentBookId) return goHome();
       const chapter = book.chapters.find(c => c.id === currentChapterId);
       if (!chapter) return goHome();
 

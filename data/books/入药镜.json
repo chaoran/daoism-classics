@@ -1,0 +1,84 @@
+﻿{
+    "id":  "入药镜",
+    "title":  "入药镜",
+    "category":  "金丹",
+    "categoryId":  "金丹",
+    "chapters":  [
+                     {
+                         "id":  "入药镜",
+                         "title":  "入药镜",
+                         "blocks":  [
+                                        {
+                                            "id":  "block-001",
+                                            "seqno":  1,
+                                            "type":  "title",
+                                            "content":  "入药镜",
+                                            "translation":  null
+                                        },
+                                        {
+                                            "id":  "block-002",
+                                            "seqno":  2,
+                                            "type":  "body",
+                                            "content":  "先天炁，后天炁，得之者，常似醉。",
+                                            "translation":  null
+                                        },
+                                        {
+                                            "id":  "block-003",
+                                            "seqno":  3,
+                                            "type":  "body",
+                                            "content":  "日有合，月有合，穷戊己，定庚甲。\n上鹊桥，下鹊桥，天应星，地应潮。\n起巽风，运坤火，入黄房，成至宝。",
+                                            "translation":  null
+                                        },
+                                        {
+                                            "id":  "block-004",
+                                            "seqno":  4,
+                                            "type":  "body",
+                                            "content":  "水怕干，火怕寒，差毫发，不成丹。\n铅龙升，汞虎降，驱二物，勿纵放。\n产在坤，种在乾，但至诚，法自然。",
+                                            "translation":  null
+                                        },
+                                        {
+                                            "id":  "block-005",
+                                            "seqno":  5,
+                                            "type":  "body",
+                                            "content":  "盗天地，夺造化，攒五行，会八卦。\n水真水，火真火，水火交，永不老。\n水能流，火能焰，在身中，自可验。\n是性命，非神气，水乡铅，只一味。",
+                                            "translation":  null
+                                        },
+                                        {
+                                            "id":  "block-006",
+                                            "seqno":  6,
+                                            "type":  "body",
+                                            "content":  "归根窍，复命关，贯尾闾，通泥丸。\n真橐籥，真鼎炉，无中有，有中无。",
+                                            "translation":  null
+                                        },
+                                        {
+                                            "id":  "block-007",
+                                            "seqno":  7,
+                                            "type":  "body",
+                                            "content":  "托黄婆，媒姹女，轻轻地，默默举。\n一日内，十二时，意所到，皆可为。",
+                                            "translation":  null
+                                        },
+                                        {
+                                            "id":  "block-008",
+                                            "seqno":  8,
+                                            "type":  "body",
+                                            "content":  "饮刀圭，窥天巧，辨朔望，知昏晓。\n识浮沉，明主客，要聚会，莫间隔。",
+                                            "translation":  null
+                                        },
+                                        {
+                                            "id":  "block-009",
+                                            "seqno":  9,
+                                            "type":  "body",
+                                            "content":  "采药时，调火功，受气吉，防成凶。\n火候足，莫伤丹，天地灵，造化悭。",
+                                            "translation":  null
+                                        },
+                                        {
+                                            "id":  "block-010",
+                                            "seqno":  10,
+                                            "type":  "body",
+                                            "content":  "初结胎，看本命，终脱胎，看四正。\n密密行，句句应。",
+                                            "translation":  null
+                                        }
+                                    ]
+                     }
+                 ]
+}
