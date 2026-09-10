@@ -1,8 +1,11 @@
-﻿# 扫描本地古籍目录，生成站点数据（目录 catalog.json + 每本书单独的 books/<id>.json）
-# 用法：在 PowerShell 中执行 .\scripts\scan-guji.ps1 [-GujiRoot <古籍目录>]
+﻿# 扫描本地古籍目录，生成站点数据：
+#   data/catalog.json              目录（分类/书/章节清单，不含正文）
+#   data/books/<书名>/原文/*.md    直接拷贝的原文 Markdown
+#   data/books/<书名>/译文/*.md    直接拷贝的译文 Markdown（如有）
+# 前端直接加载 Markdown 并渲染，换行等格式以源文件为准。
 #
+# 用法：在 PowerShell 中执行 .\scripts\scan-guji.ps1 [-GujiRoot <古籍目录>]
 # 排序：编辑 <古籍目录>\排序.txt 中各行的顺序后重跑本脚本即可。
-#       新增的分类/书籍会自动追加到该文件对应区域末尾。
 
 param(
     [string]$GujiRoot = ""
@@ -88,167 +91,7 @@ function Read-TextFile ($path) {
     return $text
 }
 
-function Split-MarkdownBlocks ($content) {
-    $paragraphs = $content -split "\r?\n\s*\r?\n" | ForEach-Object { $_.Trim() } | Where-Object {
-        $_ -ne '' -and $_ -notmatch '^-{3,}$' -and $_ -notmatch '^(\*\s*){3,}$'
-    }
-    $blocks = @()
-    $seq = 1
-    foreach ($p in $paragraphs) {
-        $type = if ($p -match '^#{1,6}\s') { 'title' } else { 'body' }
-        $clean = $p -replace '^#{1,6}\s*', ''
-        $blocks += [ordered]@{
-            id = "block-{0:D3}" -f $seq
-            seqno = $seq
-            type = $type
-            content = $clean
-            translation = $null
-        }
-        $seq++
-    }
-    return $blocks
-}
-
-function Align-TranslationBlocks ($sourceBlocks, $translationContent) {
-    # 译文文件以 > 引用原文（可能连续多行），其后段落为译文
-    $lines = $translationContent -split "\r?\n"
-    $transUnits = @()
-    $currentOriginal = @()
-    $currentTrans = @()
-    $inQuote = $false
-
-    foreach ($line in $lines) {
-        $trimmed = $line.Trim()
-        if ($trimmed -match '^>\s*(.*)$') {
-            $quoteLine = $matches[1]
-            if (-not $inQuote -and ($currentOriginal.Count -gt 0 -or $currentTrans.Count -gt 0)) {
-                $transUnits += [ordered]@{
-                    original = ($currentOriginal -join "`n").Trim()
-                    translation = ($currentTrans -join "`n`n").Trim()
-                }
-                $currentOriginal = @()
-                $currentTrans = @()
-            }
-            $currentOriginal += $quoteLine
-            $inQuote = $true
-        } elseif ($trimmed -ne '' -and $trimmed -notmatch '^#{1,6}\s' -and $trimmed -notmatch '^-{3,}$') {
-            $inQuote = $false
-            $currentTrans += $trimmed
-        }
-    }
-    if ($currentOriginal.Count -gt 0 -or $currentTrans.Count -gt 0) {
-        $transUnits += [ordered]@{
-            original = ($currentOriginal -join "`n").Trim()
-            translation = ($currentTrans -join "`n`n").Trim()
-        }
-    }
-
-    $aligned = @()
-    $transIndex = 0
-    for ($i = 0; $i -lt $sourceBlocks.Count; $i++) {
-        $block = [ordered]@{}
-        $sourceBlocks[$i].Keys | ForEach-Object { $block[$_] = $sourceBlocks[$i][$_] }
-        if ($sourceBlocks[$i].type -eq 'title') {
-            $block.translation = $null
-        } elseif ($transIndex -lt $transUnits.Count) {
-            $block.translation = $transUnits[$transIndex].translation
-            $transIndex++
-        }
-        $aligned += $block
-    }
-    return $aligned
-}
-
-function Process-Book ($bookPath, $categoryId, $categoryName) {
-    $bookName = Split-Path $bookPath -Leaf
-    $bookSlug = Get-Slug $bookName
-
-    $sourceDir = Join-Path $bookPath "原文"
-    $transDir = Join-Path $bookPath "译文"
-    $blockDir = Join-Path $bookPath "原文块"
-
-    $chapters = @()
-
-    # 优先使用原文块 JSON
-    if (Test-Path $blockDir) {
-        $jsonFiles = Get-ChildItem $blockDir -Filter "*.json" | Sort-Object { Get-SortKey $_.Name }
-        foreach ($jf in $jsonFiles) {
-            try {
-                $json = Read-TextFile $jf.FullName | ConvertFrom-Json
-                $chapterTitle = $jf.BaseName
-                if ($json.metadata -and $json.metadata.source_file) {
-                    $chapterTitle = [System.IO.Path]::GetFileNameWithoutExtension($json.metadata.source_file)
-                }
-                $blocks = @()
-                foreach ($b in $json.blocks) {
-                    $type = $b.type
-                    $content = $b.content -replace '^#{1,6}\s*', ''
-                    $translation = if ($b.translation -and $type -ne 'title') {
-                        ($b.translation -replace '^#{1,6}\s*', '') -replace '^\s*>\s*', ''
-                    } else {
-                        $null
-                    }
-                    if ($type -eq 'body' -and $b.content -match '^#{1,6}\s') {
-                        $type = 'title'
-                        $translation = $null
-                    }
-                    $blocks += [ordered]@{
-                        id = $b.id
-                        seqno = [int]$b.seqno
-                        type = $type
-                        content = $content
-                        translation = $translation
-                    }
-                }
-                $chapters += [ordered]@{
-                    id = (Get-Slug $chapterTitle) -replace '\.', '-'
-                    title = Get-Slug $chapterTitle
-                    blocks = $blocks
-                }
-            } catch {
-                Write-Warning "解析 JSON 失败: $($jf.FullName) - $($_.Exception.Message)"
-            }
-        }
-    }
-
-    # fallback：解析原文/译文 Markdown
-    if ($chapters.Count -eq 0 -and (Test-Path $sourceDir)) {
-        $sourceFiles = Get-ChildItem $sourceDir -Filter "*.md" | Sort-Object { Get-SortKey $_.Name }
-        foreach ($sf in $sourceFiles) {
-            $chapterTitle = $sf.BaseName
-            $sourceContent = Read-TextFile $sf.FullName
-            $sourceBlocks = Split-MarkdownBlocks $sourceContent
-
-            $transPath = Join-Path $transDir $sf.Name
-            if (Test-Path $transPath) {
-                $transContent = Read-TextFile $transPath
-                $sourceBlocks = Align-TranslationBlocks $sourceBlocks $transContent
-            }
-
-            $chapters += [ordered]@{
-                id = (Get-Slug $chapterTitle) -replace '\.', '-'
-                title = Get-Slug $chapterTitle
-                blocks = $sourceBlocks
-            }
-        }
-    }
-
-    if ($chapters.Count -eq 0) { return $null }
-
-    return [ordered]@{
-        id = $bookSlug -replace '\.', '-'
-        title = $bookSlug
-        category = $categoryName
-        categoryId = $categoryId
-        chapters = $chapters
-    }
-}
-
 # ======= 读取手动排序文件 =======
-# 格式：
-#   # 注释
-#   [分类]        -> 分类顺序
-#   [分类名]      -> 该分类下书籍顺序（书名一行一个，使用显示名）
 $userCatOrder = @()
 $userBookOrders = @{}
 
@@ -270,12 +113,15 @@ if (Test-Path $OrderFile) {
     }
     Write-Host "已读取排序文件: 分类 $($userCatOrder.Count) 个, 书籍分组 $($userBookOrders.Keys.Count) 个"
 } else {
-    # 首次运行：使用默认分类顺序
     $userCatOrder = @('道源', '玄契', '炼性', '金丹')
     Write-Host "未找到排序文件，使用默认分类顺序，稍后将生成: $OrderFile"
 }
 
 # ======= 主流程 =======
+if (-not (Test-Path $BooksOutDir)) {
+    New-Item -ItemType Directory -Path $BooksOutDir -Force | Out-Null
+}
+
 $categories = @()
 $categoryDirs = Get-ChildItem $GujiRoot -Directory | Sort-Object { Get-SortKey $_.Name }
 
@@ -286,8 +132,49 @@ foreach ($catDir in $categoryDirs) {
 
     $bookDirs = Get-ChildItem $catDir.FullName -Directory | Sort-Object { Get-SortKey $_.Name }
     foreach ($bookDir in $bookDirs) {
-        $book = Process-Book $bookDir.FullName $categoryId $categoryName
-        if ($book) { $books += $book }
+        $bookName = $bookDir.Name
+        $bookId = (Get-Slug $bookName) -replace '\.', '-'
+        $sourceDir = Join-Path $bookDir.FullName "原文"
+        $transDir = Join-Path $bookDir.FullName "译文"
+
+        if (-not (Test-Path $sourceDir)) { continue }
+        $sourceFiles = Get-ChildItem $sourceDir -Filter "*.md" | Sort-Object { Get-SortKey $_.Name }
+        if ($sourceFiles.Count -eq 0) { continue }
+
+        # 重建输出目录并拷贝 Markdown
+        $outBookDir = Join-Path $BooksOutDir $bookId
+        if (Test-Path $outBookDir) { Remove-Item $outBookDir -Recurse -Force }
+        $outSrc = Join-Path $outBookDir "原文"
+        $outTrans = Join-Path $outBookDir "译文"
+        New-Item -ItemType Directory -Path $outSrc -Force | Out-Null
+
+        $chapters = @()
+        foreach ($sf in $sourceFiles) {
+            Copy-Item $sf.FullName (Join-Path $outSrc $sf.Name)
+
+            $transFile = Join-Path $transDir $sf.Name
+            $hasTrans = Test-Path $transFile
+            if ($hasTrans) {
+                if (-not (Test-Path $outTrans)) { New-Item -ItemType Directory -Path $outTrans -Force | Out-Null }
+                Copy-Item $transFile (Join-Path $outTrans $sf.Name)
+            }
+
+            $chapters += [ordered]@{
+                id = (Get-Slug $sf.BaseName) -replace '\.', '-'
+                title = Get-Slug $sf.BaseName
+                file = $sf.Name
+                hasTrans = $hasTrans
+            }
+        }
+
+        $books += [ordered]@{
+            id = $bookId
+            title = Get-Slug $bookName
+            category = $categoryName
+            categoryId = $categoryId
+            chapterCount = $chapters.Count
+            chapters = $chapters
+        }
     }
 
     if ($books.Count -gt 0) {
@@ -330,63 +217,29 @@ foreach ($c in $categories) {
 ($orderLines -join "`r`n") | Out-File -FilePath $OrderFile -Encoding UTF8
 Write-Host "已更新排序文件: $OrderFile"
 
-# ======= 输出数据 =======
-if (-not (Test-Path $BooksOutDir)) {
-    New-Item -ItemType Directory -Path $BooksOutDir -Force | Out-Null
-}
-
-$catalogCategories = @()
+# ======= 清理已删除书籍的过期数据 =======
 $generatedIds = @{}
+foreach ($c in $categories) { foreach ($b in $c.books) { $generatedIds[$b.id] = $true } }
 
-foreach ($cat in $categories) {
-    $catalogBooks = @()
-    foreach ($book in $cat.books) {
-        $generatedIds[$book.id] = $true
-
-        # 单书完整数据
-        $bookFile = Join-Path $BooksOutDir ($book.id + '.json')
-        $book | ConvertTo-Json -Depth 20 | Out-File -FilePath $bookFile -Encoding UTF8
-
-        # 目录条目（不含正文）
-        $chapList = @()
-        foreach ($ch in $book.chapters) {
-            $chapList += [ordered]@{ id = $ch.id; title = $ch.title }
-        }
-        $catalogBooks += [ordered]@{
-            id = $book.id
-            title = $book.title
-            category = $book.category
-            categoryId = $book.categoryId
-            chapterCount = $book.chapters.Count
-            chapters = $chapList
-        }
-    }
-    $catalogCategories += [ordered]@{
-        id = $cat.id
-        name = $cat.name
-        books = $catalogBooks
-    }
-}
-
-# 清理已删除书籍的旧文件
-Get-ChildItem $BooksOutDir -Filter '*.json' -ErrorAction SilentlyContinue | Where-Object {
-    -not $generatedIds.ContainsKey($_.BaseName)
+Get-ChildItem $BooksOutDir -ErrorAction SilentlyContinue | Where-Object {
+    -not ($_.PSIsContainer -and $generatedIds.ContainsKey($_.Name))
 } | ForEach-Object {
-    Write-Host "清理过期文件: $($_.Name)"
-    Remove-Item $_.FullName -Force
+    Write-Host "清理过期数据: $($_.Name)"
+    Remove-Item $_.FullName -Recurse -Force
 }
 
+# ======= 输出目录 =======
 $catalog = [ordered]@{
     generatedAt = (Get-Date -Format "yyyy-MM-ddTHH:mm:ss")
-    totalCategories = $catalogCategories.Count
-    totalBooks = ($catalogCategories | ForEach-Object { $_.books.Count } | Measure-Object -Sum).Sum
-    categories = $catalogCategories
+    totalCategories = $categories.Count
+    totalBooks = ($categories | ForEach-Object { $_.books.Count } | Measure-Object -Sum).Sum
+    categories = $categories
 }
 
 $catalog | ConvertTo-Json -Depth 10 | Out-File -FilePath $CatalogFile -Encoding UTF8
 
 Write-Host "已生成目录: $CatalogFile"
-Write-Host "已生成单书数据: $BooksOutDir ($($generatedIds.Count) 本)"
+Write-Host "已拷贝书籍 Markdown: $BooksOutDir ($($generatedIds.Count) 本)"
 foreach ($c in $categories) {
     Write-Host "  $($c.name): $($c.books.Count) 本"
 }

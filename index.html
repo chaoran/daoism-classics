@@ -555,8 +555,8 @@
     let currentView = 'home';
     let currentBookId = null;
     let currentChapterId = null;
-    let currentFullBook = null;  // 当前已加载正文的书
-    const bookCache = {};        // 已加载书籍内容缓存
+    let currentChapterData = null; // 当前章节解析结果 { blocks: [...] }
+    const chapterCache = {};       // 章节缓存，key = bookId/chapterId
     let readingMode = localStorage.getItem('xuanmen_mode') || 'mixed';
     let fontSize = parseInt(localStorage.getItem('xuanmen_fontsize') || '19', 10);
 
@@ -579,13 +579,64 @@
       }
     });
 
-    async function loadFullBook(id) {
-      if (bookCache[id]) return bookCache[id];
-      const res = await fetch('data/books/' + encodeURIComponent(id) + '.json', { cache: 'no-cache' });
-      if (!res.ok) throw new Error('书籍内容加载失败');
-      const data = await res.json();
-      bookCache[id] = data;
+    // 直接加载 Markdown 源文件并在前端解析
+    async function loadChapter(bookId, chapterMeta) {
+      const key = bookId + '/' + chapterMeta.id;
+      if (chapterCache[key]) return chapterCache[key];
+      const base = 'data/books/' + encodeURIComponent(bookId) + '/';
+      const srcRes = await fetch(base + '%E5%8E%9F%E6%96%87/' + encodeURIComponent(chapterMeta.file), { cache: 'no-cache' });
+      if (!srcRes.ok) throw new Error('原文加载失败');
+      const srcMd = await srcRes.text();
+      let transMd = null;
+      if (chapterMeta.hasTrans) {
+        const tRes = await fetch(base + '%E8%AF%91%E6%96%87/' + encodeURIComponent(chapterMeta.file), { cache: 'no-cache' });
+        if (tRes.ok) transMd = await tRes.text();
+      }
+      const data = { blocks: alignTranslation(parseSourceBlocks(srcMd), transMd) };
+      chapterCache[key] = data;
       return data;
+    }
+
+    // 按空行切段，段内保留单换行
+    function parseSourceBlocks(md) {
+      return md.split(/\r?\n\s*\r?\n/)
+        .map(s => s.trim())
+        .filter(s => s && !/^-{3,}$/.test(s) && !/^(\*\s*){3,}$/.test(s))
+        .map((s, i) => ({
+          id: 'block-' + String(i + 1).padStart(3, '0'),
+          type: /^#{1,6}\s/.test(s) ? 'title' : 'body',
+          content: s.replace(/^#{1,6}\s*/, ''),
+          translation: null
+        }));
+    }
+
+    // 译文文件以 > 引用原文（可连续多行），其后为译文；与正文块按序配对
+    function alignTranslation(blocks, transMd) {
+      if (!transMd) return blocks;
+      const units = [];
+      let curTrans = [], inQuote = false, hasUnit = false;
+      const flush = () => {
+        if (hasUnit || curTrans.length) units.push(curTrans.join('\n\n'));
+        curTrans = []; hasUnit = false;
+      };
+      for (const raw of transMd.split(/\r?\n/)) {
+        const line = raw.trim();
+        if (/^>\s*/.test(line)) {
+          if (!inQuote) flush();
+          hasUnit = true;
+          inQuote = true;
+        } else if (line && !/^#{1,6}\s/.test(line) && !/^-{3,}$/.test(line)) {
+          inQuote = false;
+          curTrans.push(line);
+        }
+      }
+      flush();
+      let ti = 0;
+      for (const b of blocks) {
+        if (b.type === 'title') continue;
+        if (ti < units.length) { b.translation = units[ti] || null; ti++; }
+      }
+      return blocks;
     }
 
     function showLoading(text) {
@@ -774,9 +825,9 @@
         updateUrl();
         showLoading();
         try {
-          const full = await loadFullBook(bookId);
+          const data = await loadChapter(bookId, book.chapters[0]);
           if (currentBookId !== bookId) return;
-          currentFullBook = full;
+          currentChapterData = data;
           renderReader(null, progress && progress.scrollY ? progress.scrollY : null);
         } catch (err) {
           showToast(err.message);
@@ -836,9 +887,12 @@
       updateUrl();
       showLoading();
       try {
-        const full = await loadFullBook(bookId);
+        const book = getBook(bookId);
+        const chMeta = book ? book.chapters.find(c => c.id === chapterId) : null;
+        if (!chMeta) throw new Error('章节不存在');
+        const data = await loadChapter(bookId, chMeta);
         if (currentBookId !== bookId || currentView !== 'reader') return;
-        currentFullBook = full;
+        currentChapterData = data;
         renderReader(blockId, scrollY);
       } catch (err) {
         showToast(err.message);
@@ -847,10 +901,11 @@
     }
 
     function renderReader(targetBlockId, targetScrollY) {
-      const book = currentFullBook;
-      if (!book || book.id !== currentBookId) return goHome();
-      const chapter = book.chapters.find(c => c.id === currentChapterId);
-      if (!chapter) return goHome();
+      const book = getBook(currentBookId);
+      if (!book) return goHome();
+      const chapterMeta = book.chapters.find(c => c.id === currentChapterId);
+      if (!chapterMeta || !currentChapterData) return goHome();
+      const chapter = { id: chapterMeta.id, title: chapterMeta.title, blocks: currentChapterData.blocks };
 
       const main = document.getElementById('main');
       const showTranslation = readingMode === 'mixed';
