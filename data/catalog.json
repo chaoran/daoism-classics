@@ -1,5 +1,5 @@
 ﻿{
-    "generatedAt":  "2026-09-10T18:08:14",
+    "generatedAt":  "2026-09-10T18:43:16",
     "totalCategories":  4,
     "totalBooks":  34,
     "categories":  [
@@ -632,201 +632,6 @@
                                                           ]
                                          },
                                          {
-                                             "id":  "伍真人丹道九篇",
-                                             "title":  "伍真人丹道九篇",
-                                             "category":  "金丹",
-                                             "categoryId":  "金丹",
-                                             "chapterCount":  1,
-                                             "chapters":  [
-                                                              {
-                                                                  "id":  "伍真人丹道九篇",
-                                                                  "title":  "伍真人丹道九篇",
-                                                                  "file":  "伍真人丹道九篇.md",
-                                                                  "hasTrans":  true
-                                                              }
-                                                          ]
-                                         },
-                                         {
-                                             "id":  "入药镜",
-                                             "title":  "入药镜",
-                                             "category":  "金丹",
-                                             "categoryId":  "金丹",
-                                             "chapterCount":  1,
-                                             "chapters":  [
-                                                              {
-                                                                  "id":  "入药镜",
-                                                                  "title":  "入药镜",
-                                                                  "file":  "入药镜.md",
-                                                                  "hasTrans":  false
-                                                              }
-                                                          ]
-                                         },
-                                         {
-                                             "id":  "唱道真言",
-                                             "title":  "唱道真言",
-                                             "category":  "金丹",
-                                             "categoryId":  "金丹",
-                                             "chapterCount":  5,
-                                             "chapters":  [
-                                                              {
-                                                                  "id":  "唱道真言·卷一",
-                                                                  "title":  "唱道真言·卷一",
-                                                                  "file":  "唱道真言·卷一.md",
-                                                                  "hasTrans":  true
-                                                              },
-                                                              {
-                                                                  "id":  "唱道真言·卷三",
-                                                                  "title":  "唱道真言·卷三",
-                                                                  "file":  "唱道真言·卷三.md",
-                                                                  "hasTrans":  true
-                                                              },
-                                                              {
-                                                                  "id":  "唱道真言·卷二",
-                                                                  "title":  "唱道真言·卷二",
-                                                                  "file":  "唱道真言·卷二.md",
-                                                                  "hasTrans":  true
-                                                              },
-                                                              {
-                                                                  "id":  "唱道真言·卷五",
-                                                                  "title":  "唱道真言·卷五",
-                                                                  "file":  "唱道真言·卷五.md",
-                                                                  "hasTrans":  true
-                                                              },
-                                                              {
-                                                                  "id":  "唱道真言·卷四",
-                                                                  "title":  "唱道真言·卷四",
-                                                                  "file":  "唱道真言·卷四.md",
-                                                                  "hasTrans":  true
-                                                              }
-                                                          ]
-                                         },
-                                         {
-                                             "id":  "玄机直讲",
-                                             "title":  "玄机直讲",
-                                             "category":  "金丹",
-                                             "categoryId":  "金丹",
-                                             "chapterCount":  7,
-                                             "chapters":  [
-                                                              {
-                                                                  "id":  "一粒黍米说",
-                                                                  "title":  "一粒黍米说",
-                                                                  "file":  "一粒黍米说.md",
-                                                                  "hasTrans":  true
-                                                              },
-                                                              {
-                                                                  "id":  "服食大丹说",
-                                                                  "title":  "服食大丹说",
-                                                                  "file":  "服食大丹说.md",
-                                                                  "hasTrans":  true
-                                                              },
-                                                              {
-                                                                  "id":  "注九皇丹经龙虎铅汞论",
-                                                                  "title":  "注九皇丹经龙虎铅汞论",
-                                                                  "file":  "注九皇丹经龙虎铅汞论.md",
-                                                                  "hasTrans":  true
-                                                              },
-                                                              {
-                                                                  "id":  "注吕祖百字碑",
-                                                                  "title":  "注吕祖百字碑",
-                                                                  "file":  "注吕祖百字碑.md",
-                                                                  "hasTrans":  true
-                                                              },
-                                                              {
-                                                                  "id":  "炼丹火候说二篇",
-                                                                  "title":  "炼丹火候说二篇",
-                                                                  "file":  "炼丹火候说二篇.md",
-                                                                  "hasTrans":  true
-                                                              },
-                                                              {
-                                                                  "id":  "登天指迷说",
-                                                                  "title":  "登天指迷说",
-                                                                  "file":  "登天指迷说.md",
-                                                                  "hasTrans":  true
-                                                              },
-                                                              {
-                                                                  "id":  "返还证验说",
-                                                                  "title":  "返还证验说",
-                                                                  "file":  "返还证验说.md",
-                                                                  "hasTrans":  true
-                                                              }
-                                                          ]
-                                         },
-                                         {
-                                             "id":  "秘传正阳真人灵宝毕法",
-                                             "title":  "秘传正阳真人灵宝毕法",
-                                             "category":  "金丹",
-                                             "categoryId":  "金丹",
-                                             "chapterCount":  11,
-                                             "chapters":  [
-                                                              {
-                                                                  "id":  "匹配阴阳第一",
-                                                                  "title":  "匹配阴阳第一",
-                                                                  "file":  "匹配阴阳第一.md",
-                                                                  "hasTrans":  true
-                                                              },
-                                                              {
-                                                                  "id":  "聚散水火第二",
-                                                                  "title":  "聚散水火第二",
-                                                                  "file":  "聚散水火第二.md",
-                                                                  "hasTrans":  true
-                                                              },
-                                                              {
-                                                                  "id":  "交媾龙虎第三",
-                                                                  "title":  "交媾龙虎第三",
-                                                                  "file":  "交媾龙虎第三.md",
-                                                                  "hasTrans":  true
-                                                              },
-                                                              {
-                                                                  "id":  "烧炼丹药第四",
-                                                                  "title":  "烧炼丹药第四",
-                                                                  "file":  "烧炼丹药第四.md",
-                                                                  "hasTrans":  true
-                                                              },
-                                                              {
-                                                                  "id":  "肘后飞金晶第五",
-                                                                  "title":  "肘后飞金晶第五",
-                                                                  "file":  "肘后飞金晶第五.md",
-                                                                  "hasTrans":  true
-                                                              },
-                                                              {
-                                                                  "id":  "玉液还丹第六",
-                                                                  "title":  "玉液还丹第六",
-                                                                  "file":  "玉液还丹第六.md",
-                                                                  "hasTrans":  true
-                                                              },
-                                                              {
-                                                                  "id":  "金液还丹第七",
-                                                                  "title":  "金液还丹第七",
-                                                                  "file":  "金液还丹第七.md",
-                                                                  "hasTrans":  true
-                                                              },
-                                                              {
-                                                                  "id":  "朝元第八",
-                                                                  "title":  "朝元第八",
-                                                                  "file":  "朝元第八.md",
-                                                                  "hasTrans":  true
-                                                              },
-                                                              {
-                                                                  "id":  "内观第九",
-                                                                  "title":  "内观第九",
-                                                                  "file":  "内观第九.md",
-                                                                  "hasTrans":  true
-                                                              },
-                                                              {
-                                                                  "id":  "超脱第十",
-                                                                  "title":  "超脱第十",
-                                                                  "file":  "超脱第十.md",
-                                                                  "hasTrans":  true
-                                                              },
-                                                              {
-                                                                  "id":  "序",
-                                                                  "title":  "序",
-                                                                  "file":  "序.md",
-                                                                  "hasTrans":  true
-                                                              }
-                                                          ]
-                                         },
-                                         {
                                              "id":  "紫阳真人悟真篇",
                                              "title":  "紫阳真人悟真篇",
                                              "category":  "金丹",
@@ -890,31 +695,121 @@
                                                           ]
                                          },
                                          {
-                                             "id":  "道言浅近说",
-                                             "title":  "道言浅近说",
+                                             "id":  "伍真人丹道九篇",
+                                             "title":  "伍真人丹道九篇",
                                              "category":  "金丹",
                                              "categoryId":  "金丹",
                                              "chapterCount":  1,
                                              "chapters":  [
                                                               {
-                                                                  "id":  "道言浅近说",
-                                                                  "title":  "道言浅近说",
-                                                                  "file":  "道言浅近说.md",
+                                                                  "id":  "伍真人丹道九篇",
+                                                                  "title":  "伍真人丹道九篇",
+                                                                  "file":  "伍真人丹道九篇.md",
                                                                   "hasTrans":  true
                                                               }
                                                           ]
                                          },
                                          {
-                                             "id":  "重阳真人授丹阳二十四诀",
-                                             "title":  "重阳真人授丹阳二十四诀",
+                                             "id":  "入药镜",
+                                             "title":  "入药镜",
                                              "category":  "金丹",
                                              "categoryId":  "金丹",
                                              "chapterCount":  1,
                                              "chapters":  [
                                                               {
-                                                                  "id":  "重阳真人授丹阳二十四诀",
-                                                                  "title":  "重阳真人授丹阳二十四诀",
-                                                                  "file":  "重阳真人授丹阳二十四诀.md",
+                                                                  "id":  "入药镜",
+                                                                  "title":  "入药镜",
+                                                                  "file":  "入药镜.md",
+                                                                  "hasTrans":  false
+                                                              }
+                                                          ]
+                                         },
+                                         {
+                                             "id":  "唱道真言",
+                                             "title":  "唱道真言",
+                                             "category":  "金丹",
+                                             "categoryId":  "金丹",
+                                             "chapterCount":  5,
+                                             "chapters":  [
+                                                              {
+                                                                  "id":  "唱道真言·卷一",
+                                                                  "title":  "唱道真言·卷一",
+                                                                  "file":  "唱道真言·卷一.md",
+                                                                  "hasTrans":  true
+                                                              },
+                                                              {
+                                                                  "id":  "唱道真言·卷二",
+                                                                  "title":  "唱道真言·卷二",
+                                                                  "file":  "唱道真言·卷二.md",
+                                                                  "hasTrans":  true
+                                                              },
+                                                              {
+                                                                  "id":  "唱道真言·卷三",
+                                                                  "title":  "唱道真言·卷三",
+                                                                  "file":  "唱道真言·卷三.md",
+                                                                  "hasTrans":  true
+                                                              },
+                                                              {
+                                                                  "id":  "唱道真言·卷四",
+                                                                  "title":  "唱道真言·卷四",
+                                                                  "file":  "唱道真言·卷四.md",
+                                                                  "hasTrans":  true
+                                                              },
+                                                              {
+                                                                  "id":  "唱道真言·卷五",
+                                                                  "title":  "唱道真言·卷五",
+                                                                  "file":  "唱道真言·卷五.md",
+                                                                  "hasTrans":  true
+                                                              }
+                                                          ]
+                                         },
+                                         {
+                                             "id":  "玄机直讲",
+                                             "title":  "玄机直讲",
+                                             "category":  "金丹",
+                                             "categoryId":  "金丹",
+                                             "chapterCount":  7,
+                                             "chapters":  [
+                                                              {
+                                                                  "id":  "一粒黍米说",
+                                                                  "title":  "一粒黍米说",
+                                                                  "file":  "一粒黍米说.md",
+                                                                  "hasTrans":  true
+                                                              },
+                                                              {
+                                                                  "id":  "服食大丹说",
+                                                                  "title":  "服食大丹说",
+                                                                  "file":  "服食大丹说.md",
+                                                                  "hasTrans":  true
+                                                              },
+                                                              {
+                                                                  "id":  "注九皇丹经龙虎铅汞论",
+                                                                  "title":  "注九皇丹经龙虎铅汞论",
+                                                                  "file":  "注九皇丹经龙虎铅汞论.md",
+                                                                  "hasTrans":  true
+                                                              },
+                                                              {
+                                                                  "id":  "注吕祖百字碑",
+                                                                  "title":  "注吕祖百字碑",
+                                                                  "file":  "注吕祖百字碑.md",
+                                                                  "hasTrans":  true
+                                                              },
+                                                              {
+                                                                  "id":  "炼丹火候说二篇",
+                                                                  "title":  "炼丹火候说二篇",
+                                                                  "file":  "炼丹火候说二篇.md",
+                                                                  "hasTrans":  true
+                                                              },
+                                                              {
+                                                                  "id":  "登天指迷说",
+                                                                  "title":  "登天指迷说",
+                                                                  "file":  "登天指迷说.md",
+                                                                  "hasTrans":  true
+                                                              },
+                                                              {
+                                                                  "id":  "返还证验说",
+                                                                  "title":  "返还证验说",
+                                                                  "file":  "返还证验说.md",
                                                                   "hasTrans":  true
                                                               }
                                                           ]
@@ -1032,6 +927,111 @@
                                                                   "id":  "论证验",
                                                                   "title":  "论证验",
                                                                   "file":  "18_论证验.md",
+                                                                  "hasTrans":  true
+                                                              }
+                                                          ]
+                                         },
+                                         {
+                                             "id":  "秘传正阳真人灵宝毕法",
+                                             "title":  "秘传正阳真人灵宝毕法",
+                                             "category":  "金丹",
+                                             "categoryId":  "金丹",
+                                             "chapterCount":  11,
+                                             "chapters":  [
+                                                              {
+                                                                  "id":  "匹配阴阳第一",
+                                                                  "title":  "匹配阴阳第一",
+                                                                  "file":  "匹配阴阳第一.md",
+                                                                  "hasTrans":  true
+                                                              },
+                                                              {
+                                                                  "id":  "聚散水火第二",
+                                                                  "title":  "聚散水火第二",
+                                                                  "file":  "聚散水火第二.md",
+                                                                  "hasTrans":  true
+                                                              },
+                                                              {
+                                                                  "id":  "交媾龙虎第三",
+                                                                  "title":  "交媾龙虎第三",
+                                                                  "file":  "交媾龙虎第三.md",
+                                                                  "hasTrans":  true
+                                                              },
+                                                              {
+                                                                  "id":  "烧炼丹药第四",
+                                                                  "title":  "烧炼丹药第四",
+                                                                  "file":  "烧炼丹药第四.md",
+                                                                  "hasTrans":  true
+                                                              },
+                                                              {
+                                                                  "id":  "肘后飞金晶第五",
+                                                                  "title":  "肘后飞金晶第五",
+                                                                  "file":  "肘后飞金晶第五.md",
+                                                                  "hasTrans":  true
+                                                              },
+                                                              {
+                                                                  "id":  "玉液还丹第六",
+                                                                  "title":  "玉液还丹第六",
+                                                                  "file":  "玉液还丹第六.md",
+                                                                  "hasTrans":  true
+                                                              },
+                                                              {
+                                                                  "id":  "金液还丹第七",
+                                                                  "title":  "金液还丹第七",
+                                                                  "file":  "金液还丹第七.md",
+                                                                  "hasTrans":  true
+                                                              },
+                                                              {
+                                                                  "id":  "朝元第八",
+                                                                  "title":  "朝元第八",
+                                                                  "file":  "朝元第八.md",
+                                                                  "hasTrans":  true
+                                                              },
+                                                              {
+                                                                  "id":  "内观第九",
+                                                                  "title":  "内观第九",
+                                                                  "file":  "内观第九.md",
+                                                                  "hasTrans":  true
+                                                              },
+                                                              {
+                                                                  "id":  "超脱第十",
+                                                                  "title":  "超脱第十",
+                                                                  "file":  "超脱第十.md",
+                                                                  "hasTrans":  true
+                                                              },
+                                                              {
+                                                                  "id":  "序",
+                                                                  "title":  "序",
+                                                                  "file":  "序.md",
+                                                                  "hasTrans":  true
+                                                              }
+                                                          ]
+                                         },
+                                         {
+                                             "id":  "重阳真人授丹阳二十四诀",
+                                             "title":  "重阳真人授丹阳二十四诀",
+                                             "category":  "金丹",
+                                             "categoryId":  "金丹",
+                                             "chapterCount":  1,
+                                             "chapters":  [
+                                                              {
+                                                                  "id":  "重阳真人授丹阳二十四诀",
+                                                                  "title":  "重阳真人授丹阳二十四诀",
+                                                                  "file":  "重阳真人授丹阳二十四诀.md",
+                                                                  "hasTrans":  true
+                                                              }
+                                                          ]
+                                         },
+                                         {
+                                             "id":  "道言浅近说",
+                                             "title":  "道言浅近说",
+                                             "category":  "金丹",
+                                             "categoryId":  "金丹",
+                                             "chapterCount":  1,
+                                             "chapters":  [
+                                                              {
+                                                                  "id":  "道言浅近说",
+                                                                  "title":  "道言浅近说",
+                                                                  "file":  "道言浅近说.md",
                                                                   "hasTrans":  true
                                                               }
                                                           ]
