@@ -559,6 +559,7 @@
     const chapterCache = {};       // 章节缓存，key = bookId/chapterId
     let readerScrollHandler = null; // 阅读器滚动监听（离开阅读器即失效）
     let suppressProgress = false;   // 恢复阅读位置期间禁止写进度
+    let suppressPush = false;       // 处理浏览器前进/后退时不再 pushState
     let readingMode = localStorage.getItem('xuanmen_mode') || 'mixed';
     let fontSize = parseInt(localStorage.getItem('xuanmen_fontsize') || '19', 10);
 
@@ -566,11 +567,14 @@
 
     document.addEventListener('DOMContentLoaded', async () => {
       document.documentElement.style.setProperty('--reader-font-size', fontSize + 'px');
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
       try {
         const res = await fetch('data/catalog.json', { cache: 'no-cache' });
         if (!res.ok) throw new Error('无法加载古籍目录');
         appData = await res.json();
+        suppressPush = true;
         restoreLastPosition();
+        suppressPush = false;
       } catch (err) {
         document.getElementById('main').innerHTML = `
           <div class="empty">
@@ -694,6 +698,7 @@
     }
 
     function updateUrl() {
+      if (suppressPush) return;
       const params = new URLSearchParams();
       if (currentBookId) params.set('book', currentBookId);
       if (currentChapterId) params.set('chapter', currentChapterId);
@@ -701,6 +706,26 @@
       const url = qs ? '?' + qs : window.location.pathname;
       history.pushState(null, '', url);
     }
+
+    // 浏览器前进/后退：按 URL 参数恢复到对应视图
+    window.addEventListener('popstate', () => {
+      const params = new URLSearchParams(window.location.search);
+      const bookId = params.get('book');
+      const chapterId = params.get('chapter');
+      suppressPush = true;
+      if (bookId && getBook(bookId)) {
+        if (chapterId) {
+          const progress = getProgress()[bookId];
+          const scrollY = progress && progress.chapterId === chapterId ? progress.scrollY : null;
+          openReader(bookId, chapterId, null, scrollY);
+        } else {
+          openBook(bookId);
+        }
+      } else {
+        goHome();
+      }
+      suppressPush = false;
+    });
 
     // ======= 顶栏 / 底栏 =======
     function renderChrome() {
