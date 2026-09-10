@@ -1,5 +1,5 @@
 ﻿{
-    "generatedAt":  "2026-09-10T13:28:04",
+    "generatedAt":  "2026-09-10T13:40:22",
     "totalCategories":  4,
     "totalBooks":  34,
     "categories":  [
@@ -7,6 +7,19 @@
                            "id":  "道源",
                            "name":  "道源",
                            "books":  [
+                                         {
+                                             "id":  "道德经",
+                                             "title":  "道德经",
+                                             "category":  "道源",
+                                             "categoryId":  "道源",
+                                             "chapterCount":  1,
+                                             "chapters":  [
+                                                              {
+                                                                  "id":  "道德经",
+                                                                  "title":  "道德经"
+                                                              }
+                                                          ]
+                                         },
                                          {
                                              "id":  "庄子内篇",
                                              "title":  "庄子内篇",
@@ -90,44 +103,6 @@
                                                           ]
                                          },
                                          {
-                                             "id":  "管子四篇",
-                                             "title":  "管子四篇",
-                                             "category":  "道源",
-                                             "categoryId":  "道源",
-                                             "chapterCount":  4,
-                                             "chapters":  [
-                                                              {
-                                                                  "id":  "心术下",
-                                                                  "title":  "心术下"
-                                                              },
-                                                              {
-                                                                  "id":  "白心",
-                                                                  "title":  "白心"
-                                                              },
-                                                              {
-                                                                  "id":  "内业",
-                                                                  "title":  "内业"
-                                                              },
-                                                              {
-                                                                  "id":  "心术上",
-                                                                  "title":  "心术上"
-                                                              }
-                                                          ]
-                                         },
-                                         {
-                                             "id":  "西升经",
-                                             "title":  "西升经",
-                                             "category":  "道源",
-                                             "categoryId":  "道源",
-                                             "chapterCount":  1,
-                                             "chapters":  [
-                                                              {
-                                                                  "id":  "老子西升经",
-                                                                  "title":  "老子西升经"
-                                                              }
-                                                          ]
-                                         },
-                                         {
                                              "id":  "通玄真经",
                                              "title":  "通玄真经",
                                              "category":  "道源",
@@ -185,15 +160,40 @@
                                                           ]
                                          },
                                          {
-                                             "id":  "道德经",
-                                             "title":  "道德经",
+                                             "id":  "管子四篇",
+                                             "title":  "管子四篇",
+                                             "category":  "道源",
+                                             "categoryId":  "道源",
+                                             "chapterCount":  4,
+                                             "chapters":  [
+                                                              {
+                                                                  "id":  "心术下",
+                                                                  "title":  "心术下"
+                                                              },
+                                                              {
+                                                                  "id":  "白心",
+                                                                  "title":  "白心"
+                                                              },
+                                                              {
+                                                                  "id":  "内业",
+                                                                  "title":  "内业"
+                                                              },
+                                                              {
+                                                                  "id":  "心术上",
+                                                                  "title":  "心术上"
+                                                              }
+                                                          ]
+                                         },
+                                         {
+                                             "id":  "西升经",
+                                             "title":  "西升经",
                                              "category":  "道源",
                                              "categoryId":  "道源",
                                              "chapterCount":  1,
                                              "chapters":  [
                                                               {
-                                                                  "id":  "道德经",
-                                                                  "title":  "道德经"
+                                                                  "id":  "老子西升经",
+                                                                  "title":  "老子西升经"
                                                               }
                                                           ]
                                          },
@@ -217,6 +217,19 @@
                            "name":  "玄契",
                            "books":  [
                                          {
+                                             "id":  "太上老君说常清静经",
+                                             "title":  "太上老君说常清静经",
+                                             "category":  "玄契",
+                                             "categoryId":  "玄契",
+                                             "chapterCount":  1,
+                                             "chapters":  [
+                                                              {
+                                                                  "id":  "太上老君说常清静经",
+                                                                  "title":  "太上老君说常清静经"
+                                                              }
+                                                          ]
+                                         },
+                                         {
                                              "id":  "太上老君内日用妙经",
                                              "title":  "太上老君内日用妙经",
                                              "category":  "玄契",
@@ -226,19 +239,6 @@
                                                               {
                                                                   "id":  "太上老君内日用妙经",
                                                                   "title":  "太上老君内日用妙经"
-                                                              }
-                                                          ]
-                                         },
-                                         {
-                                             "id":  "洞玄灵宝定观经",
-                                             "title":  "洞玄灵宝定观经",
-                                             "category":  "玄契",
-                                             "categoryId":  "玄契",
-                                             "chapterCount":  1,
-                                             "chapters":  [
-                                                              {
-                                                                  "id":  "洞玄灵宝定观经",
-                                                                  "title":  "洞玄灵宝定观经"
                                                               }
                                                           ]
                                          },
@@ -256,15 +256,15 @@
                                                           ]
                                          },
                                          {
-                                             "id":  "般若波罗蜜多心经",
-                                             "title":  "般若波罗蜜多心经",
+                                             "id":  "洞玄灵宝定观经",
+                                             "title":  "洞玄灵宝定观经",
                                              "category":  "玄契",
                                              "categoryId":  "玄契",
                                              "chapterCount":  1,
                                              "chapters":  [
                                                               {
-                                                                  "id":  "般若波罗蜜多心经",
-                                                                  "title":  "般若波罗蜜多心经"
+                                                                  "id":  "洞玄灵宝定观经",
+                                                                  "title":  "洞玄灵宝定观经"
                                                               }
                                                           ]
                                          },
@@ -295,19 +295,6 @@
                                                           ]
                                          },
                                          {
-                                             "id":  "太上老君说常清静经",
-                                             "title":  "太上老君说常清静经",
-                                             "category":  "玄契",
-                                             "categoryId":  "玄契",
-                                             "chapterCount":  1,
-                                             "chapters":  [
-                                                              {
-                                                                  "id":  "太上老君说常清静经",
-                                                                  "title":  "太上老君说常清静经"
-                                                              }
-                                                          ]
-                                         },
-                                         {
                                              "id":  "黄庭外景玉经",
                                              "title":  "黄庭外景玉经",
                                              "category":  "玄契",
@@ -332,6 +319,19 @@
                                                                   "title":  "黄庭内景玉经"
                                                               }
                                                           ]
+                                         },
+                                         {
+                                             "id":  "般若波罗蜜多心经",
+                                             "title":  "般若波罗蜜多心经",
+                                             "category":  "玄契",
+                                             "categoryId":  "玄契",
+                                             "chapterCount":  1,
+                                             "chapters":  [
+                                                              {
+                                                                  "id":  "般若波罗蜜多心经",
+                                                                  "title":  "般若波罗蜜多心经"
+                                                              }
+                                                          ]
                                          }
                                      ]
                        },
@@ -339,6 +339,100 @@
                            "id":  "炼性",
                            "name":  "炼性",
                            "books":  [
+                                         {
+                                             "id":  "坐忘论",
+                                             "title":  "坐忘论",
+                                             "category":  "炼性",
+                                             "categoryId":  "炼性",
+                                             "chapterCount":  1,
+                                             "chapters":  [
+                                                              {
+                                                                  "id":  "坐忘论",
+                                                                  "title":  "坐忘论"
+                                                              }
+                                                          ]
+                                         },
+                                         {
+                                             "id":  "天隐子",
+                                             "title":  "天隐子",
+                                             "category":  "炼性",
+                                             "categoryId":  "炼性",
+                                             "chapterCount":  1,
+                                             "chapters":  [
+                                                              {
+                                                                  "id":  "天隐子",
+                                                                  "title":  "天隐子"
+                                                              }
+                                                          ]
+                                         },
+                                         {
+                                             "id":  "心目论",
+                                             "title":  "心目论",
+                                             "category":  "炼性",
+                                             "categoryId":  "炼性",
+                                             "chapterCount":  1,
+                                             "chapters":  [
+                                                              {
+                                                                  "id":  "心目论",
+                                                                  "title":  "心目论"
+                                                              }
+                                                          ]
+                                         },
+                                         {
+                                             "id":  "吕祖心经",
+                                             "title":  "吕祖心经",
+                                             "category":  "炼性",
+                                             "categoryId":  "炼性",
+                                             "chapterCount":  1,
+                                             "chapters":  [
+                                                              {
+                                                                  "id":  "吕祖心经",
+                                                                  "title":  "吕祖心经"
+                                                              }
+                                                          ]
+                                         },
+                                         {
+                                             "id":  "重阳立教十五论",
+                                             "title":  "重阳立教十五论",
+                                             "category":  "炼性",
+                                             "categoryId":  "炼性",
+                                             "chapterCount":  1,
+                                             "chapters":  [
+                                                              {
+                                                                  "id":  "重阳立教十五论",
+                                                                  "title":  "重阳立教十五论"
+                                                              }
+                                                          ]
+                                         },
+                                         {
+                                             "id":  "乐育堂语录",
+                                             "title":  "乐育堂语录",
+                                             "category":  "炼性",
+                                             "categoryId":  "炼性",
+                                             "chapterCount":  5,
+                                             "chapters":  [
+                                                              {
+                                                                  "id":  "卷一",
+                                                                  "title":  "卷一"
+                                                              },
+                                                              {
+                                                                  "id":  "卷二",
+                                                                  "title":  "卷二"
+                                                              },
+                                                              {
+                                                                  "id":  "卷三",
+                                                                  "title":  "卷三"
+                                                              },
+                                                              {
+                                                                  "id":  "卷四",
+                                                                  "title":  "卷四"
+                                                              },
+                                                              {
+                                                                  "id":  "卷五",
+                                                                  "title":  "卷五"
+                                                              }
+                                                          ]
+                                         },
                                          {
                                              "id":  "六祖坛经",
                                              "title":  "六祖坛经",
@@ -387,100 +481,6 @@
                                                                   "title":  "付嘱第十"
                                                               }
                                                           ]
-                                         },
-                                         {
-                                             "id":  "乐育堂语录",
-                                             "title":  "乐育堂语录",
-                                             "category":  "炼性",
-                                             "categoryId":  "炼性",
-                                             "chapterCount":  5,
-                                             "chapters":  [
-                                                              {
-                                                                  "id":  "卷一",
-                                                                  "title":  "卷一"
-                                                              },
-                                                              {
-                                                                  "id":  "卷二",
-                                                                  "title":  "卷二"
-                                                              },
-                                                              {
-                                                                  "id":  "卷三",
-                                                                  "title":  "卷三"
-                                                              },
-                                                              {
-                                                                  "id":  "卷四",
-                                                                  "title":  "卷四"
-                                                              },
-                                                              {
-                                                                  "id":  "卷五",
-                                                                  "title":  "卷五"
-                                                              }
-                                                          ]
-                                         },
-                                         {
-                                             "id":  "吕祖心经",
-                                             "title":  "吕祖心经",
-                                             "category":  "炼性",
-                                             "categoryId":  "炼性",
-                                             "chapterCount":  1,
-                                             "chapters":  [
-                                                              {
-                                                                  "id":  "吕祖心经",
-                                                                  "title":  "吕祖心经"
-                                                              }
-                                                          ]
-                                         },
-                                         {
-                                             "id":  "坐忘论",
-                                             "title":  "坐忘论",
-                                             "category":  "炼性",
-                                             "categoryId":  "炼性",
-                                             "chapterCount":  1,
-                                             "chapters":  [
-                                                              {
-                                                                  "id":  "坐忘论",
-                                                                  "title":  "坐忘论"
-                                                              }
-                                                          ]
-                                         },
-                                         {
-                                             "id":  "天隐子",
-                                             "title":  "天隐子",
-                                             "category":  "炼性",
-                                             "categoryId":  "炼性",
-                                             "chapterCount":  1,
-                                             "chapters":  [
-                                                              {
-                                                                  "id":  "天隐子",
-                                                                  "title":  "天隐子"
-                                                              }
-                                                          ]
-                                         },
-                                         {
-                                             "id":  "心目论",
-                                             "title":  "心目论",
-                                             "category":  "炼性",
-                                             "categoryId":  "炼性",
-                                             "chapterCount":  1,
-                                             "chapters":  [
-                                                              {
-                                                                  "id":  "心目论",
-                                                                  "title":  "心目论"
-                                                              }
-                                                          ]
-                                         },
-                                         {
-                                             "id":  "重阳立教十五论",
-                                             "title":  "重阳立教十五论",
-                                             "category":  "炼性",
-                                             "categoryId":  "炼性",
-                                             "chapterCount":  1,
-                                             "chapters":  [
-                                                              {
-                                                                  "id":  "重阳立教十五论",
-                                                                  "title":  "重阳立教十五论"
-                                                              }
-                                                          ]
                                          }
                                      ]
                        },
@@ -488,6 +488,19 @@
                            "id":  "金丹",
                            "name":  "金丹",
                            "books":  [
+                                         {
+                                             "id":  "周易参同契",
+                                             "title":  "周易参同契",
+                                             "category":  "金丹",
+                                             "categoryId":  "金丹",
+                                             "chapterCount":  1,
+                                             "chapters":  [
+                                                              {
+                                                                  "id":  "周易参同契",
+                                                                  "title":  "周易参同契"
+                                                              }
+                                                          ]
+                                         },
                                          {
                                              "id":  "伍真人丹道九篇",
                                              "title":  "伍真人丹道九篇",
@@ -511,19 +524,6 @@
                                                               {
                                                                   "id":  "入药镜",
                                                                   "title":  "入药镜"
-                                                              }
-                                                          ]
-                                         },
-                                         {
-                                             "id":  "周易参同契",
-                                             "title":  "周易参同契",
-                                             "category":  "金丹",
-                                             "categoryId":  "金丹",
-                                             "chapterCount":  1,
-                                             "chapters":  [
-                                                              {
-                                                                  "id":  "周易参同契",
-                                                                  "title":  "周易参同契"
                                                               }
                                                           ]
                                          },
@@ -553,67 +553,6 @@
                                                               {
                                                                   "id":  "唱道真言·卷五",
                                                                   "title":  "唱道真言·卷五"
-                                                              }
-                                                          ]
-                                         },
-                                         {
-                                             "id":  "太乙金华宗旨",
-                                             "title":  "太乙金华宗旨",
-                                             "category":  "金丹",
-                                             "categoryId":  "金丹",
-                                             "chapterCount":  13,
-                                             "chapters":  [
-                                                              {
-                                                                  "id":  "天心",
-                                                                  "title":  "天心"
-                                                              },
-                                                              {
-                                                                  "id":  "元神识神",
-                                                                  "title":  "元神识神"
-                                                              },
-                                                              {
-                                                                  "id":  "回光守中",
-                                                                  "title":  "回光守中"
-                                                              },
-                                                              {
-                                                                  "id":  "回光调息",
-                                                                  "title":  "回光调息"
-                                                              },
-                                                              {
-                                                                  "id":  "回光差谬",
-                                                                  "title":  "回光差谬"
-                                                              },
-                                                              {
-                                                                  "id":  "回光证验",
-                                                                  "title":  "回光证验"
-                                                              },
-                                                              {
-                                                                  "id":  "回光活法",
-                                                                  "title":  "回光活法"
-                                                              },
-                                                              {
-                                                                  "id":  "逍遥诀",
-                                                                  "title":  "逍遥诀"
-                                                              },
-                                                              {
-                                                                  "id":  "百日立基",
-                                                                  "title":  "百日立基"
-                                                              },
-                                                              {
-                                                                  "id":  "性光识光",
-                                                                  "title":  "性光识光"
-                                                              },
-                                                              {
-                                                                  "id":  "坎离交媾",
-                                                                  "title":  "坎离交媾"
-                                                              },
-                                                              {
-                                                                  "id":  "周天",
-                                                                  "title":  "周天"
-                                                              },
-                                                              {
-                                                                  "id":  "劝世歌",
-                                                                  "title":  "劝世歌"
                                                               }
                                                           ]
                                          },
@@ -856,6 +795,67 @@
                                                               {
                                                                   "id":  "论证验",
                                                                   "title":  "论证验"
+                                                              }
+                                                          ]
+                                         },
+                                         {
+                                             "id":  "太乙金华宗旨",
+                                             "title":  "太乙金华宗旨",
+                                             "category":  "金丹",
+                                             "categoryId":  "金丹",
+                                             "chapterCount":  13,
+                                             "chapters":  [
+                                                              {
+                                                                  "id":  "天心",
+                                                                  "title":  "天心"
+                                                              },
+                                                              {
+                                                                  "id":  "元神识神",
+                                                                  "title":  "元神识神"
+                                                              },
+                                                              {
+                                                                  "id":  "回光守中",
+                                                                  "title":  "回光守中"
+                                                              },
+                                                              {
+                                                                  "id":  "回光调息",
+                                                                  "title":  "回光调息"
+                                                              },
+                                                              {
+                                                                  "id":  "回光差谬",
+                                                                  "title":  "回光差谬"
+                                                              },
+                                                              {
+                                                                  "id":  "回光证验",
+                                                                  "title":  "回光证验"
+                                                              },
+                                                              {
+                                                                  "id":  "回光活法",
+                                                                  "title":  "回光活法"
+                                                              },
+                                                              {
+                                                                  "id":  "逍遥诀",
+                                                                  "title":  "逍遥诀"
+                                                              },
+                                                              {
+                                                                  "id":  "百日立基",
+                                                                  "title":  "百日立基"
+                                                              },
+                                                              {
+                                                                  "id":  "性光识光",
+                                                                  "title":  "性光识光"
+                                                              },
+                                                              {
+                                                                  "id":  "坎离交媾",
+                                                                  "title":  "坎离交媾"
+                                                              },
+                                                              {
+                                                                  "id":  "周天",
+                                                                  "title":  "周天"
+                                                              },
+                                                              {
+                                                                  "id":  "劝世歌",
+                                                                  "title":  "劝世歌"
                                                               }
                                                           ]
                                          }
