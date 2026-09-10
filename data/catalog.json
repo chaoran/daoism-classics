@@ -1,5 +1,5 @@
 ﻿{
-    "generatedAt":  "2026-09-10T14:23:54",
+    "generatedAt":  "2026-09-10T18:08:14",
     "totalCategories":  4,
     "totalBooks":  34,
     "categories":  [
@@ -12,13 +12,15 @@
                                              "title":  "道德经",
                                              "category":  "道源",
                                              "categoryId":  "道源",
-                                             "chapterCount":  4,
-                                             "chapters":  {
-                                                              "id":  "道德经",
-                                                              "title":  "道德经",
-                                                              "file":  "道德经.md",
-                                                              "hasTrans":  true
-                                                          }
+                                             "chapterCount":  1,
+                                             "chapters":  [
+                                                              {
+                                                                  "id":  "道德经",
+                                                                  "title":  "道德经",
+                                                                  "file":  "道德经.md",
+                                                                  "hasTrans":  true
+                                                              }
+                                                          ]
                                          },
                                          {
                                              "id":  "庄子内篇",
@@ -253,26 +255,30 @@
                                              "title":  "西升经",
                                              "category":  "道源",
                                              "categoryId":  "道源",
-                                             "chapterCount":  4,
-                                             "chapters":  {
-                                                              "id":  "老子西升经",
-                                                              "title":  "老子西升经",
-                                                              "file":  "老子西升经.md",
-                                                              "hasTrans":  true
-                                                          }
+                                             "chapterCount":  1,
+                                             "chapters":  [
+                                                              {
+                                                                  "id":  "老子西升经",
+                                                                  "title":  "老子西升经",
+                                                                  "file":  "老子西升经.md",
+                                                                  "hasTrans":  true
+                                                              }
+                                                          ]
                                          },
                                          {
                                              "id":  "阴符经",
                                              "title":  "阴符经",
                                              "category":  "道源",
                                              "categoryId":  "道源",
-                                             "chapterCount":  4,
-                                             "chapters":  {
-                                                              "id":  "阴符经",
-                                                              "title":  "阴符经",
-                                                              "file":  "阴符经.md",
-                                                              "hasTrans":  true
-                                                          }
+                                             "chapterCount":  1,
+                                             "chapters":  [
+                                                              {
+                                                                  "id":  "阴符经",
+                                                                  "title":  "阴符经",
+                                                                  "file":  "阴符经.md",
+                                                                  "hasTrans":  true
+                                                              }
+                                                          ]
                                          }
                                      ]
                        },
@@ -285,117 +291,135 @@
                                              "title":  "太上老君说常清静经",
                                              "category":  "玄契",
                                              "categoryId":  "玄契",
-                                             "chapterCount":  4,
-                                             "chapters":  {
-                                                              "id":  "太上老君说常清静经",
-                                                              "title":  "太上老君说常清静经",
-                                                              "file":  "太上老君说常清静经.md",
-                                                              "hasTrans":  true
-                                                          }
+                                             "chapterCount":  1,
+                                             "chapters":  [
+                                                              {
+                                                                  "id":  "太上老君说常清静经",
+                                                                  "title":  "太上老君说常清静经",
+                                                                  "file":  "太上老君说常清静经.md",
+                                                                  "hasTrans":  true
+                                                              }
+                                                          ]
                                          },
                                          {
                                              "id":  "太上老君内日用妙经",
                                              "title":  "太上老君内日用妙经",
                                              "category":  "玄契",
                                              "categoryId":  "玄契",
-                                             "chapterCount":  4,
-                                             "chapters":  {
-                                                              "id":  "太上老君内日用妙经",
-                                                              "title":  "太上老君内日用妙经",
-                                                              "file":  "太上老君内日用妙经.md",
-                                                              "hasTrans":  true
-                                                          }
+                                             "chapterCount":  1,
+                                             "chapters":  [
+                                                              {
+                                                                  "id":  "太上老君内日用妙经",
+                                                                  "title":  "太上老君内日用妙经",
+                                                                  "file":  "太上老君内日用妙经.md",
+                                                                  "hasTrans":  true
+                                                              }
+                                                          ]
                                          },
                                          {
                                              "id":  "太上老君说了心经",
                                              "title":  "太上老君说了心经",
                                              "category":  "玄契",
                                              "categoryId":  "玄契",
-                                             "chapterCount":  4,
-                                             "chapters":  {
-                                                              "id":  "太上老君说了心经",
-                                                              "title":  "太上老君说了心经",
-                                                              "file":  "太上老君说了心经.md",
-                                                              "hasTrans":  true
-                                                          }
+                                             "chapterCount":  1,
+                                             "chapters":  [
+                                                              {
+                                                                  "id":  "太上老君说了心经",
+                                                                  "title":  "太上老君说了心经",
+                                                                  "file":  "太上老君说了心经.md",
+                                                                  "hasTrans":  true
+                                                              }
+                                                          ]
                                          },
                                          {
                                              "id":  "洞玄灵宝定观经",
                                              "title":  "洞玄灵宝定观经",
                                              "category":  "玄契",
                                              "categoryId":  "玄契",
-                                             "chapterCount":  4,
-                                             "chapters":  {
-                                                              "id":  "洞玄灵宝定观经",
-                                                              "title":  "洞玄灵宝定观经",
-                                                              "file":  "洞玄灵宝定观经.md",
-                                                              "hasTrans":  true
-                                                          }
+                                             "chapterCount":  1,
+                                             "chapters":  [
+                                                              {
+                                                                  "id":  "洞玄灵宝定观经",
+                                                                  "title":  "洞玄灵宝定观经",
+                                                                  "file":  "洞玄灵宝定观经.md",
+                                                                  "hasTrans":  true
+                                                              }
+                                                          ]
                                          },
                                          {
                                              "id":  "太上老君内观经",
                                              "title":  "太上老君内观经",
                                              "category":  "玄契",
                                              "categoryId":  "玄契",
-                                             "chapterCount":  4,
-                                             "chapters":  {
-                                                              "id":  "太上老君内观经",
-                                                              "title":  "太上老君内观经",
-                                                              "file":  "太上老君内观经.md",
-                                                              "hasTrans":  true
-                                                          }
+                                             "chapterCount":  1,
+                                             "chapters":  [
+                                                              {
+                                                                  "id":  "太上老君内观经",
+                                                                  "title":  "太上老君内观经",
+                                                                  "file":  "太上老君内观经.md",
+                                                                  "hasTrans":  true
+                                                              }
+                                                          ]
                                          },
                                          {
                                              "id":  "高上玉皇心印妙经",
                                              "title":  "高上玉皇心印妙经",
                                              "category":  "玄契",
                                              "categoryId":  "玄契",
-                                             "chapterCount":  4,
-                                             "chapters":  {
-                                                              "id":  "高上玉皇心印妙经",
-                                                              "title":  "高上玉皇心印妙经",
-                                                              "file":  "高上玉皇心印妙经.md",
-                                                              "hasTrans":  true
-                                                          }
+                                             "chapterCount":  1,
+                                             "chapters":  [
+                                                              {
+                                                                  "id":  "高上玉皇心印妙经",
+                                                                  "title":  "高上玉皇心印妙经",
+                                                                  "file":  "高上玉皇心印妙经.md",
+                                                                  "hasTrans":  true
+                                                              }
+                                                          ]
                                          },
                                          {
                                              "id":  "黄庭外景玉经",
                                              "title":  "黄庭外景玉经",
                                              "category":  "玄契",
                                              "categoryId":  "玄契",
-                                             "chapterCount":  4,
-                                             "chapters":  {
-                                                              "id":  "黄庭外景玉经",
-                                                              "title":  "黄庭外景玉经",
-                                                              "file":  "黄庭外景玉经.md",
-                                                              "hasTrans":  true
-                                                          }
+                                             "chapterCount":  1,
+                                             "chapters":  [
+                                                              {
+                                                                  "id":  "黄庭外景玉经",
+                                                                  "title":  "黄庭外景玉经",
+                                                                  "file":  "黄庭外景玉经.md",
+                                                                  "hasTrans":  true
+                                                              }
+                                                          ]
                                          },
                                          {
                                              "id":  "黄庭内景玉经",
                                              "title":  "黄庭内景玉经",
                                              "category":  "玄契",
                                              "categoryId":  "玄契",
-                                             "chapterCount":  4,
-                                             "chapters":  {
-                                                              "id":  "黄庭内景玉经",
-                                                              "title":  "黄庭内景玉经",
-                                                              "file":  "黄庭内景玉经.md",
-                                                              "hasTrans":  true
-                                                          }
+                                             "chapterCount":  1,
+                                             "chapters":  [
+                                                              {
+                                                                  "id":  "黄庭内景玉经",
+                                                                  "title":  "黄庭内景玉经",
+                                                                  "file":  "黄庭内景玉经.md",
+                                                                  "hasTrans":  true
+                                                              }
+                                                          ]
                                          },
                                          {
                                              "id":  "般若波罗蜜多心经",
                                              "title":  "般若波罗蜜多心经",
                                              "category":  "玄契",
                                              "categoryId":  "玄契",
-                                             "chapterCount":  4,
-                                             "chapters":  {
-                                                              "id":  "般若波罗蜜多心经",
-                                                              "title":  "般若波罗蜜多心经",
-                                                              "file":  "般若波罗蜜多心经.md",
-                                                              "hasTrans":  true
-                                                          }
+                                             "chapterCount":  1,
+                                             "chapters":  [
+                                                              {
+                                                                  "id":  "般若波罗蜜多心经",
+                                                                  "title":  "般若波罗蜜多心经",
+                                                                  "file":  "般若波罗蜜多心经.md",
+                                                                  "hasTrans":  true
+                                                              }
+                                                          ]
                                          }
                                      ]
                        },
@@ -408,65 +432,75 @@
                                              "title":  "坐忘论",
                                              "category":  "炼性",
                                              "categoryId":  "炼性",
-                                             "chapterCount":  4,
-                                             "chapters":  {
-                                                              "id":  "坐忘论",
-                                                              "title":  "坐忘论",
-                                                              "file":  "坐忘论.md",
-                                                              "hasTrans":  true
-                                                          }
+                                             "chapterCount":  1,
+                                             "chapters":  [
+                                                              {
+                                                                  "id":  "坐忘论",
+                                                                  "title":  "坐忘论",
+                                                                  "file":  "坐忘论.md",
+                                                                  "hasTrans":  true
+                                                              }
+                                                          ]
                                          },
                                          {
                                              "id":  "天隐子",
                                              "title":  "天隐子",
                                              "category":  "炼性",
                                              "categoryId":  "炼性",
-                                             "chapterCount":  4,
-                                             "chapters":  {
-                                                              "id":  "天隐子",
-                                                              "title":  "天隐子",
-                                                              "file":  "天隐子.md",
-                                                              "hasTrans":  true
-                                                          }
+                                             "chapterCount":  1,
+                                             "chapters":  [
+                                                              {
+                                                                  "id":  "天隐子",
+                                                                  "title":  "天隐子",
+                                                                  "file":  "天隐子.md",
+                                                                  "hasTrans":  true
+                                                              }
+                                                          ]
                                          },
                                          {
                                              "id":  "心目论",
                                              "title":  "心目论",
                                              "category":  "炼性",
                                              "categoryId":  "炼性",
-                                             "chapterCount":  4,
-                                             "chapters":  {
-                                                              "id":  "心目论",
-                                                              "title":  "心目论",
-                                                              "file":  "心目论.md",
-                                                              "hasTrans":  true
-                                                          }
+                                             "chapterCount":  1,
+                                             "chapters":  [
+                                                              {
+                                                                  "id":  "心目论",
+                                                                  "title":  "心目论",
+                                                                  "file":  "心目论.md",
+                                                                  "hasTrans":  true
+                                                              }
+                                                          ]
                                          },
                                          {
                                              "id":  "吕祖心经",
                                              "title":  "吕祖心经",
                                              "category":  "炼性",
                                              "categoryId":  "炼性",
-                                             "chapterCount":  4,
-                                             "chapters":  {
-                                                              "id":  "吕祖心经",
-                                                              "title":  "吕祖心经",
-                                                              "file":  "吕祖心经.md",
-                                                              "hasTrans":  true
-                                                          }
+                                             "chapterCount":  1,
+                                             "chapters":  [
+                                                              {
+                                                                  "id":  "吕祖心经",
+                                                                  "title":  "吕祖心经",
+                                                                  "file":  "吕祖心经.md",
+                                                                  "hasTrans":  true
+                                                              }
+                                                          ]
                                          },
                                          {
                                              "id":  "重阳立教十五论",
                                              "title":  "重阳立教十五论",
                                              "category":  "炼性",
                                              "categoryId":  "炼性",
-                                             "chapterCount":  4,
-                                             "chapters":  {
-                                                              "id":  "重阳立教十五论",
-                                                              "title":  "重阳立教十五论",
-                                                              "file":  "重阳立教十五论.md",
-                                                              "hasTrans":  true
-                                                          }
+                                             "chapterCount":  1,
+                                             "chapters":  [
+                                                              {
+                                                                  "id":  "重阳立教十五论",
+                                                                  "title":  "重阳立教十五论",
+                                                                  "file":  "重阳立教十五论.md",
+                                                                  "hasTrans":  true
+                                                              }
+                                                          ]
                                          },
                                          {
                                              "id":  "乐育堂语录",
@@ -587,39 +621,45 @@
                                              "title":  "周易参同契",
                                              "category":  "金丹",
                                              "categoryId":  "金丹",
-                                             "chapterCount":  4,
-                                             "chapters":  {
-                                                              "id":  "周易参同契",
-                                                              "title":  "周易参同契",
-                                                              "file":  "周易参同契.md",
-                                                              "hasTrans":  true
-                                                          }
+                                             "chapterCount":  1,
+                                             "chapters":  [
+                                                              {
+                                                                  "id":  "周易参同契",
+                                                                  "title":  "周易参同契",
+                                                                  "file":  "周易参同契.md",
+                                                                  "hasTrans":  true
+                                                              }
+                                                          ]
                                          },
                                          {
                                              "id":  "伍真人丹道九篇",
                                              "title":  "伍真人丹道九篇",
                                              "category":  "金丹",
                                              "categoryId":  "金丹",
-                                             "chapterCount":  4,
-                                             "chapters":  {
-                                                              "id":  "伍真人丹道九篇",
-                                                              "title":  "伍真人丹道九篇",
-                                                              "file":  "伍真人丹道九篇.md",
-                                                              "hasTrans":  true
-                                                          }
+                                             "chapterCount":  1,
+                                             "chapters":  [
+                                                              {
+                                                                  "id":  "伍真人丹道九篇",
+                                                                  "title":  "伍真人丹道九篇",
+                                                                  "file":  "伍真人丹道九篇.md",
+                                                                  "hasTrans":  true
+                                                              }
+                                                          ]
                                          },
                                          {
                                              "id":  "入药镜",
                                              "title":  "入药镜",
                                              "category":  "金丹",
                                              "categoryId":  "金丹",
-                                             "chapterCount":  4,
-                                             "chapters":  {
-                                                              "id":  "入药镜",
-                                                              "title":  "入药镜",
-                                                              "file":  "入药镜.md",
-                                                              "hasTrans":  false
-                                                          }
+                                             "chapterCount":  1,
+                                             "chapters":  [
+                                                              {
+                                                                  "id":  "入药镜",
+                                                                  "title":  "入药镜",
+                                                                  "file":  "入药镜.md",
+                                                                  "hasTrans":  false
+                                                              }
+                                                          ]
                                          },
                                          {
                                              "id":  "唱道真言",
@@ -854,26 +894,30 @@
                                              "title":  "道言浅近说",
                                              "category":  "金丹",
                                              "categoryId":  "金丹",
-                                             "chapterCount":  4,
-                                             "chapters":  {
-                                                              "id":  "道言浅近说",
-                                                              "title":  "道言浅近说",
-                                                              "file":  "道言浅近说.md",
-                                                              "hasTrans":  true
-                                                          }
+                                             "chapterCount":  1,
+                                             "chapters":  [
+                                                              {
+                                                                  "id":  "道言浅近说",
+                                                                  "title":  "道言浅近说",
+                                                                  "file":  "道言浅近说.md",
+                                                                  "hasTrans":  true
+                                                              }
+                                                          ]
                                          },
                                          {
                                              "id":  "重阳真人授丹阳二十四诀",
                                              "title":  "重阳真人授丹阳二十四诀",
                                              "category":  "金丹",
                                              "categoryId":  "金丹",
-                                             "chapterCount":  4,
-                                             "chapters":  {
-                                                              "id":  "重阳真人授丹阳二十四诀",
-                                                              "title":  "重阳真人授丹阳二十四诀",
-                                                              "file":  "重阳真人授丹阳二十四诀.md",
-                                                              "hasTrans":  true
-                                                          }
+                                             "chapterCount":  1,
+                                             "chapters":  [
+                                                              {
+                                                                  "id":  "重阳真人授丹阳二十四诀",
+                                                                  "title":  "重阳真人授丹阳二十四诀",
+                                                                  "file":  "重阳真人授丹阳二十四诀.md",
+                                                                  "hasTrans":  true
+                                                              }
+                                                          ]
                                          },
                                          {
                                              "id":  "钟吕传道集",

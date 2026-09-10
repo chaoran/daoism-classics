@@ -176,11 +176,11 @@ foreach ($catDir in $categoryDirs) {
         # 篇章排序：优先排序文件中的 [书名] 区域，未列入的按默认规则排在后面
         $bookTitle = Get-Slug $bookName
         $chapOrder = $sections[$bookTitle]
-        $chapters = $chapters | Sort-Object {
+        $chapters = @($chapters | Sort-Object {
             $i = -1
             if ($chapOrder) { $i = [array]::IndexOf($chapOrder, $_.title) }
             if ($i -ge 0) { $i } else { 10000 }
-        }, { Get-SortKey $_.file }
+        }, { Get-SortKey $_.file })
 
         $books += [ordered]@{
             id = $bookId
@@ -195,11 +195,11 @@ foreach ($catDir in $categoryDirs) {
     if ($books.Count -gt 0) {
         # 按手动顺序排序；未列入的按默认规则排在后面
         $orderList = $sections[$categoryName]
-        $books = $books | Sort-Object {
+        $books = @($books | Sort-Object {
             $i = -1
             if ($orderList) { $i = [array]::IndexOf($orderList, $_.title) }
             if ($i -ge 0) { $i } else { 10000 }
-        }, { Get-SortKey $_.title }
+        }, { Get-SortKey $_.title })
 
         $categories += [ordered]@{
             id = $categoryId
@@ -210,10 +210,10 @@ foreach ($catDir in $categoryDirs) {
 }
 
 # 分类排序
-$categories = $categories | Sort-Object {
+$categories = @($categories | Sort-Object {
     $i = [array]::IndexOf($userCatOrder, $_.name)
     if ($i -ge 0) { $i } else { 10000 }
-}, { Get-SortKey $_.name }
+}, { Get-SortKey $_.name })
 
 # ======= 回写排序文件（保留用户顺序，追加新增条目） =======
 $orderLines = @()
