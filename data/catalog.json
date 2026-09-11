@@ -1,7 +1,7 @@
 ﻿{
-    "generatedAt":  "2026-09-11T18:07:30",
+    "generatedAt":  "2026-09-11T18:44:30",
     "totalCategories":  5,
-    "totalBooks":  37,
+    "totalBooks":  35,
     "categories":  [
                        {
                            "id":  "道源",
@@ -287,6 +287,21 @@
                            "name":  "玄契",
                            "books":  [
                                          {
+                                             "id":  "高上玉皇心印妙经",
+                                             "title":  "高上玉皇心印妙经",
+                                             "category":  "玄契",
+                                             "categoryId":  "玄契",
+                                             "chapterCount":  1,
+                                             "chapters":  [
+                                                              {
+                                                                  "id":  "高上玉皇心印妙经",
+                                                                  "title":  "高上玉皇心印妙经",
+                                                                  "file":  "高上玉皇心印妙经.md",
+                                                                  "hasTrans":  true
+                                                              }
+                                                          ]
+                                         },
+                                         {
                                              "id":  "太上老君说常清静经",
                                              "title":  "太上老君说常清静经",
                                              "category":  "玄契",
@@ -332,21 +347,6 @@
                                                           ]
                                          },
                                          {
-                                             "id":  "洞玄灵宝定观经",
-                                             "title":  "洞玄灵宝定观经",
-                                             "category":  "玄契",
-                                             "categoryId":  "玄契",
-                                             "chapterCount":  1,
-                                             "chapters":  [
-                                                              {
-                                                                  "id":  "洞玄灵宝定观经",
-                                                                  "title":  "洞玄灵宝定观经",
-                                                                  "file":  "洞玄灵宝定观经.md",
-                                                                  "hasTrans":  true
-                                                              }
-                                                          ]
-                                         },
-                                         {
                                              "id":  "太上老君内观经",
                                              "title":  "太上老君内观经",
                                              "category":  "玄契",
@@ -362,16 +362,16 @@
                                                           ]
                                          },
                                          {
-                                             "id":  "高上玉皇心印妙经",
-                                             "title":  "高上玉皇心印妙经",
+                                             "id":  "洞玄灵宝定观经",
+                                             "title":  "洞玄灵宝定观经",
                                              "category":  "玄契",
                                              "categoryId":  "玄契",
                                              "chapterCount":  1,
                                              "chapters":  [
                                                               {
-                                                                  "id":  "高上玉皇心印妙经",
-                                                                  "title":  "高上玉皇心印妙经",
-                                                                  "file":  "高上玉皇心印妙经.md",
+                                                                  "id":  "洞玄灵宝定观经",
+                                                                  "title":  "洞玄灵宝定观经",
+                                                                  "file":  "洞玄灵宝定观经.md",
                                                                   "hasTrans":  true
                                                               }
                                                           ]
@@ -710,21 +710,6 @@
                                                           ]
                                          },
                                          {
-                                             "id":  "入药镜",
-                                             "title":  "入药镜",
-                                             "category":  "金丹",
-                                             "categoryId":  "金丹",
-                                             "chapterCount":  1,
-                                             "chapters":  [
-                                                              {
-                                                                  "id":  "入药镜",
-                                                                  "title":  "入药镜",
-                                                                  "file":  "入药镜.md",
-                                                                  "hasTrans":  false
-                                                              }
-                                                          ]
-                                         },
-                                         {
                                              "id":  "唱道真言",
                                              "title":  "唱道真言",
                                              "category":  "金丹",
@@ -759,57 +744,6 @@
                                                                   "id":  "唱道真言·卷五",
                                                                   "title":  "唱道真言·卷五",
                                                                   "file":  "唱道真言·卷五.md",
-                                                                  "hasTrans":  true
-                                                              }
-                                                          ]
-                                         },
-                                         {
-                                             "id":  "玄机直讲",
-                                             "title":  "玄机直讲",
-                                             "category":  "金丹",
-                                             "categoryId":  "金丹",
-                                             "chapterCount":  7,
-                                             "chapters":  [
-                                                              {
-                                                                  "id":  "一粒黍米说",
-                                                                  "title":  "一粒黍米说",
-                                                                  "file":  "一粒黍米说.md",
-                                                                  "hasTrans":  true
-                                                              },
-                                                              {
-                                                                  "id":  "服食大丹说",
-                                                                  "title":  "服食大丹说",
-                                                                  "file":  "服食大丹说.md",
-                                                                  "hasTrans":  true
-                                                              },
-                                                              {
-                                                                  "id":  "注九皇丹经龙虎铅汞论",
-                                                                  "title":  "注九皇丹经龙虎铅汞论",
-                                                                  "file":  "注九皇丹经龙虎铅汞论.md",
-                                                                  "hasTrans":  true
-                                                              },
-                                                              {
-                                                                  "id":  "注吕祖百字碑",
-                                                                  "title":  "注吕祖百字碑",
-                                                                  "file":  "注吕祖百字碑.md",
-                                                                  "hasTrans":  true
-                                                              },
-                                                              {
-                                                                  "id":  "炼丹火候说二篇",
-                                                                  "title":  "炼丹火候说二篇",
-                                                                  "file":  "炼丹火候说二篇.md",
-                                                                  "hasTrans":  true
-                                                              },
-                                                              {
-                                                                  "id":  "登天指迷说",
-                                                                  "title":  "登天指迷说",
-                                                                  "file":  "登天指迷说.md",
-                                                                  "hasTrans":  true
-                                                              },
-                                                              {
-                                                                  "id":  "返还证验说",
-                                                                  "title":  "返还证验说",
-                                                                  "file":  "返还证验说.md",
                                                                   "hasTrans":  true
                                                               }
                                                           ]

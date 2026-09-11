@@ -6,9 +6,11 @@
 #
 # 用法：在 PowerShell 中执行 .\scripts\scan-guji.ps1 [-GujiRoot <古籍目录>]
 # 排序：编辑本仓库根目录的 排序.txt 后重跑本脚本即可。格式：
-#   [分类]        -> 分类顺序
-#   [分类名]      -> 该分类下的书籍顺序
+#   [分类]        -> 分类顺序（同时是分类白名单）
+#   [分类名]      -> 该分类下要收录的书籍及其顺序（书的白名单）
 #   [书名]        -> 该书的篇章顺序（自动为多篇章书籍生成，可手动调整）
+# 收录规则：只有列在 [分类] 与 [分类名] 区域里的分类/书籍才会进 catalog.json 并显示在网站上。
+#   未列出的书即使存在于古籍目录也不会被收录；其 data/books 下的旧数据会保留（源目录被删除时才清理）。
 
 param(
     [string]$GujiRoot = ""
@@ -129,6 +131,7 @@ if (-not (Test-Path $BooksOutDir)) {
 }
 
 $categories = @()
+$allBookIds = @{}   # 扫到的全部书籍（含未列入排序文件、因而不收录的书），用于清理过期数据
 $categoryDirs = Get-ChildItem $GujiRoot -Directory | Sort-Object { Get-SortKey $_.Name }
 
 foreach ($catDir in $categoryDirs) {
@@ -140,10 +143,19 @@ foreach ($catDir in $categoryDirs) {
     foreach ($bookDir in $bookDirs) {
         $bookName = $bookDir.Name
         $bookId = (Get-Slug $bookName) -replace '\.', '-'
+        $bookTitle = Get-Slug $bookName
         $sourceDir = Join-Path $bookDir.FullName "原文"
         $transDir = Join-Path $bookDir.FullName "译文"
 
         if (-not (Test-Path $sourceDir)) { continue }
+        $allBookIds[$bookId] = $true
+
+        # 白名单：只有列在本分类区段里的书才收录
+        $orderList = $sections[$categoryName]
+        if (-not $orderList -or -not ($orderList -contains $bookTitle)) {
+            Write-Host "未列入排序文件，不收录: $bookTitle"
+            continue
+        }
         $sourceFiles = Get-ChildItem $sourceDir -Filter "*.md" | Sort-Object { Get-SortKey $_.Name }
         if ($sourceFiles.Count -eq 0) { continue }
 
@@ -174,7 +186,6 @@ foreach ($catDir in $categoryDirs) {
         }
 
         # 篇章排序：优先排序文件中的 [书名] 区域，未列入的按默认规则排在后面
-        $bookTitle = Get-Slug $bookName
         $chapOrder = $sections[$bookTitle]
         $chapters = @($chapters | Sort-Object {
             $i = -1
@@ -222,7 +233,9 @@ $orderLines += '# 修改方法：调整下面各行的先后顺序，保存后�
 $orderLines += '# [分类] 区域：分类顺序'
 $orderLines += '# [分类名] 区域：该分类下的书籍顺序'
 $orderLines += '# [书名] 区域：该书的篇章顺序（仅多篇章书籍有此区域）'
-$orderLines += '# 新增的分类/书籍/篇章会自动追加到对应区域末尾，可再手动调整位置'
+$orderLines += '# 本文件是收录白名单：只有列在 [分类] 与 [分类名] 区域里的分类/书籍才会显示在网站上'
+$orderLines += '# 新增书籍：先放进古籍目录，再把书名写进对应分类区域，重跑本脚本即可收录'
+$orderLines += '# 篇章顺序：未列入的篇章会自动追加到对应区域末尾，可再手动调整位置'
 $orderLines += ''
 $orderLines += '[分类]'
 foreach ($c in $categories) { $orderLines += $c.name }
@@ -245,11 +258,12 @@ foreach ($c in $categories) {
 Write-Host "已更新排序文件: $OrderFile"
 
 # ======= 清理已删除书籍的过期数据 =======
+# 只清理源目录里已经不存在的书；未列入排序文件的书仍保留在 data/books
 $generatedIds = @{}
 foreach ($c in $categories) { foreach ($b in $c.books) { $generatedIds[$b.id] = $true } }
 
 Get-ChildItem $BooksOutDir -ErrorAction SilentlyContinue | Where-Object {
-    -not ($_.PSIsContainer -and $generatedIds.ContainsKey($_.Name))
+    -not ($_.PSIsContainer -and $allBookIds.ContainsKey($_.Name))
 } | ForEach-Object {
     Write-Host "清理过期数据: $($_.Name)"
     Remove-Item $_.FullName -Recurse -Force
