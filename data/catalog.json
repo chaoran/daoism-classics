@@ -1,7 +1,7 @@
 ﻿{
-    "generatedAt":  "2026-09-10T18:43:16",
-    "totalCategories":  4,
-    "totalBooks":  34,
+    "generatedAt":  "2026-09-11T18:07:30",
+    "totalCategories":  5,
+    "totalBooks":  37,
     "categories":  [
                        {
                            "id":  "道源",
@@ -1119,6 +1119,135 @@
                                                                   "id":  "劝世歌",
                                                                   "title":  "劝世歌",
                                                                   "file":  "13_劝世歌.md",
+                                                                  "hasTrans":  true
+                                                              }
+                                                          ]
+                                         }
+                                     ]
+                       },
+                       {
+                           "id":  "仙传",
+                           "name":  "仙传",
+                           "books":  [
+                                         {
+                                             "id":  "列仙传",
+                                             "title":  "列仙传",
+                                             "category":  "仙传",
+                                             "categoryId":  "仙传",
+                                             "chapterCount":  2,
+                                             "chapters":  [
+                                                              {
+                                                                  "id":  "卷上",
+                                                                  "title":  "卷上",
+                                                                  "file":  "1-卷上.md",
+                                                                  "hasTrans":  true
+                                                              },
+                                                              {
+                                                                  "id":  "卷下",
+                                                                  "title":  "卷下",
+                                                                  "file":  "2-卷下.md",
+                                                                  "hasTrans":  true
+                                                              }
+                                                          ]
+                                         },
+                                         {
+                                             "id":  "神仙传",
+                                             "title":  "神仙传",
+                                             "category":  "仙传",
+                                             "categoryId":  "仙传",
+                                             "chapterCount":  10,
+                                             "chapters":  [
+                                                              {
+                                                                  "id":  "卷一",
+                                                                  "title":  "卷一",
+                                                                  "file":  "1-卷一.md",
+                                                                  "hasTrans":  true
+                                                              },
+                                                              {
+                                                                  "id":  "卷二",
+                                                                  "title":  "卷二",
+                                                                  "file":  "2-卷二.md",
+                                                                  "hasTrans":  true
+                                                              },
+                                                              {
+                                                                  "id":  "卷三",
+                                                                  "title":  "卷三",
+                                                                  "file":  "3-卷三.md",
+                                                                  "hasTrans":  true
+                                                              },
+                                                              {
+                                                                  "id":  "卷四",
+                                                                  "title":  "卷四",
+                                                                  "file":  "4-卷四.md",
+                                                                  "hasTrans":  true
+                                                              },
+                                                              {
+                                                                  "id":  "卷五",
+                                                                  "title":  "卷五",
+                                                                  "file":  "5-卷五.md",
+                                                                  "hasTrans":  true
+                                                              },
+                                                              {
+                                                                  "id":  "卷六",
+                                                                  "title":  "卷六",
+                                                                  "file":  "6-卷六.md",
+                                                                  "hasTrans":  true
+                                                              },
+                                                              {
+                                                                  "id":  "卷七",
+                                                                  "title":  "卷七",
+                                                                  "file":  "7-卷七.md",
+                                                                  "hasTrans":  true
+                                                              },
+                                                              {
+                                                                  "id":  "卷八",
+                                                                  "title":  "卷八",
+                                                                  "file":  "8-卷八.md",
+                                                                  "hasTrans":  true
+                                                              },
+                                                              {
+                                                                  "id":  "卷九",
+                                                                  "title":  "卷九",
+                                                                  "file":  "9-卷九.md",
+                                                                  "hasTrans":  true
+                                                              },
+                                                              {
+                                                                  "id":  "卷十",
+                                                                  "title":  "卷十",
+                                                                  "file":  "10-卷十.md",
+                                                                  "hasTrans":  true
+                                                              }
+                                                          ]
+                                         },
+                                         {
+                                             "id":  "续仙传",
+                                             "title":  "续仙传",
+                                             "category":  "仙传",
+                                             "categoryId":  "仙传",
+                                             "chapterCount":  4,
+                                             "chapters":  [
+                                                              {
+                                                                  "id":  "序",
+                                                                  "title":  "序",
+                                                                  "file":  "1-序.md",
+                                                                  "hasTrans":  true
+                                                              },
+                                                              {
+                                                                  "id":  "卷上",
+                                                                  "title":  "卷上",
+                                                                  "file":  "2-卷上.md",
+                                                                  "hasTrans":  true
+                                                              },
+                                                              {
+                                                                  "id":  "卷中",
+                                                                  "title":  "卷中",
+                                                                  "file":  "3-卷中.md",
+                                                                  "hasTrans":  true
+                                                              },
+                                                              {
+                                                                  "id":  "卷下",
+                                                                  "title":  "卷下",
+                                                                  "file":  "4-卷下.md",
                                                                   "hasTrans":  true
                                                               }
                                                           ]
